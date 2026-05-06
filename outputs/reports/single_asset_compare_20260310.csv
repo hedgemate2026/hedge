@@ -1,0 +1,4 @@
+scenario,vol_annual,mdd,cvar_95,annual_return_krw,sharpe_krw_proxy,vol_improve_pct,mdd_improve_pct,cvar_improve_pct,sharpe_improve_pct,stress_improve,no_recommendation_reason
+기준(TSLA 100%),0.59802,-0.71603,-0.080393,0.17056,0.235043,0.0,0.0,0.0,0.0,0.0,
+제안(1:1) - GLD,0.499654,-0.632734,-0.067306,0.207722,0.355691,16.448661,11.632972,16.279215,51.330437,0.000342,
+제안(다자산) - GLD + SHY,0.499568,-0.633751,-0.067307,0.195181,0.330647,16.463071,11.490997,16.277706,40.675534,0.000385,

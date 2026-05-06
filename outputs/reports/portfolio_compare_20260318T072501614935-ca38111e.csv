@@ -1,0 +1,4 @@
+scenario,vol_annual,mdd,cvar_95,annual_return_krw,sharpe_krw_proxy,vol_improve_pct,mdd_improve_pct,cvar_improve_pct,sharpe_improve_pct,stress_improve,no_recommendation_reason
+기존 포트폴리오,0.205068,-0.190808,-0.025448,0.373135,1.673272,0.0,0.0,0.0,0.0,0.0,
+제안(1:1) - SHY,0.16686,-0.145441,-0.020918,0.312001,1.690048,18.632155,23.77611,17.799342,1.002546,5.4e-05,
+제안(다자산) - IAU + SHY,0.152315,-0.130757,-0.019358,0.320226,1.905437,25.724833,31.471826,23.930304,13.874891,2.3e-05,

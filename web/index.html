@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HedgeMate Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="loading-overlay" class="loading-overlay hidden" aria-live="polite" aria-busy="true">
+      <div class="loading-card">
+        <div id="loading-spinner" class="loading-spinner"></div>
+        <h2 id="loading-title">분석 중…</h2>
+        <p id="loading-message">잠시만 기다려 주세요. 최신 결과를 불러오고 있습니다.</p>
+        <div id="loading-elapsed" class="loading-elapsed">0초 경과</div>
+        <button id="loading-confirm-button" type="button" class="primary-button hidden">확인</button>
+      </div>
+    </div>
+    <div class="background-glow glow-left"></div>
+    <div class="background-glow glow-right"></div>
+    <main class="app-shell">
+      <header class="hero glass-card">
+        <div class="hero-copy">
+          <span class="eyebrow">HedgeMate</span>
+          <h1>원화 예산 기반 <br />헤지 추천 대시보드</h1>
+          <p>
+            최신 분석 결과를 한 화면에서 읽고, 포트폴리오/단일 종목 추천을
+            원화 예산 기준으로 직관적으로 검토할 수 있는 웹 UI입니다.
+          </p>
+          <div class="hero-badges">
+            <span class="badge">KRW Base</span>
+            <span class="badge">Manual Snapshot</span>
+            <span class="badge">No Auto Refresh</span>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <label for="run-select" class="field-label">분석 스냅샷</label>
+          <div class="select-wrap">
+            <select id="run-select"></select>
+          </div>
+          <button id="refresh-button" class="primary-button">데이터 새로 읽기</button>
+          <p class="helper-text">실시간 자동 갱신은 꺼져 있습니다. 수동으로 최신 산출물을 읽습니다.</p>
+        </div>
+      </header>
+
+      <section id="status-banner" class="status-banner"></section>
+
+      <section id="overview-grid" class="metric-grid"></section>
+
+      <section class="section-grid">
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Input</span>
+              <h2>단일 자산 분석 실행</h2>
+            </div>
+          </div>
+          <form id="single-run-form" class="input-form">
+            <label class="field-label" for="single-asset-input">종목/자산 검색</label>
+            <input id="single-asset-input" class="text-input" type="text" list="asset-options" placeholder="예: Tesla, 테슬라, 삼성전자, 금 ETF" value="Tesla" />
+            <div id="single-asset-preview" class="selection-preview">선택된 자산: Tesla (TSLA)</div>
+            <div class="inline-fields">
+              <div>
+                <label class="field-label" for="single-base-amount-input">보유 금액 (KRW)</label>
+                <input id="single-base-amount-input" class="text-input" type="number" min="1" step="1" value="10000000" />
+              </div>
+              <div>
+                <label class="field-label" for="single-budget-input">헷지 예산 (KRW)</label>
+                <input id="single-budget-input" class="text-input" type="number" min="1" step="1" value="2000000" />
+              </div>
+            </div>
+            <div class="inline-fields">
+              <div>
+                <label class="field-label" for="single-combo-input">최대 조합 수</label>
+                <input id="single-combo-input" class="text-input" type="number" min="1" max="4" value="1" />
+              </div>
+              <div class="helper-panel">
+                <div class="field-label">입력 방식</div>
+                <div class="helper-text compact">회사명/자산명으로 검색하고, 실제 원화 예산으로 살 수 있는 수량 기준으로 헷지를 계산합니다.</div>
+              </div>
+            </div>
+            <button type="submit" class="primary-button">단일 자산 분석 실행</button>
+          </form>
+        </article>
+
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Input</span>
+              <h2>포트폴리오 분석 실행</h2>
+            </div>
+          </div>
+          <form id="portfolio-run-form" class="input-form">
+            <div class="row-head">
+              <label class="field-label">포트폴리오 자산 구성</label>
+              <button id="add-portfolio-row" type="button" class="ghost-button">자산 추가</button>
+            </div>
+            <div id="portfolio-rows" class="portfolio-rows"></div>
+            <div id="portfolio-total" class="selection-preview">총 보유 금액: -</div>
+            <div class="inline-fields">
+              <div>
+                <label class="field-label" for="portfolio-budget-input">헷지 예산 (KRW)</label>
+                <input id="portfolio-budget-input" class="text-input" type="number" min="1" step="1" value="2000000" />
+              </div>
+              <div>
+                <label class="field-label" for="portfolio-combo-input">최대 조합 수</label>
+                <input id="portfolio-combo-input" class="text-input" type="number" min="1" max="4" value="1" />
+              </div>
+            </div>
+            <button type="submit" class="primary-button">포트폴리오 분석 실행</button>
+          </form>
+        </article>
+      </section>
+
+      <datalist id="asset-options"></datalist>
+
+      <section class="section-grid">
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Portfolio</span>
+              <h2>포트폴리오 개선 효과</h2>
+            </div>
+            <span id="portfolio-chip" class="section-chip">-</span>
+          </div>
+          <div id="portfolio-compare"></div>
+        </article>
+
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Single Asset</span>
+              <h2>단일 종목 추천 결과</h2>
+            </div>
+            <span id="single-asset-chip" class="section-chip">-</span>
+          </div>
+          <div id="single-asset-compare"></div>
+        </article>
+      </section>
+
+      <section class="section-grid lower-grid">
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Allocation</span>
+              <h2>추천 포트폴리오 자산배분</h2>
+            </div>
+          </div>
+          <div id="portfolio-allocation"></div>
+        </article>
+
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Allocation</span>
+              <h2>단일 종목 추천 자산배분</h2>
+            </div>
+          </div>
+          <div id="single-allocation"></div>
+        </article>
+      </section>
+
+      <section class="section-grid lower-grid">
+        <article class="glass-card section-card wide-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Top Candidates</span>
+              <h2>상위 헷지 후보</h2>
+            </div>
+          </div>
+          <div id="top-hedges"></div>
+        </article>
+
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Risk Watchlist</span>
+              <h2>리스크 상위 자산</h2>
+            </div>
+          </div>
+          <div id="risk-watchlist"></div>
+        </article>
+      </section>
+
+      <section class="section-grid lower-grid">
+        <article class="glass-card section-card full-span-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Sensitivity</span>
+              <h2>자산 민감도 보기</h2>
+            </div>
+            <span id="sensitivity-chip" class="section-chip">-</span>
+          </div>
+          <div class="input-form sensitivity-filter">
+            <div>
+              <label class="field-label" for="sensitivity-asset-input">민감도 확인 자산</label>
+              <input id="sensitivity-asset-input" class="text-input" type="text" list="asset-options" placeholder="예: Tesla, 삼성전자, 금 ETF" />
+            </div>
+            <div id="sensitivity-asset-preview" class="selection-preview">민감도 자산을 선택하면 direction / magnitude / 민감도 강도를 보여줍니다.</div>
+          </div>
+          <div id="asset-sensitivity"></div>
+        </article>
+      </section>
+
+      <section class="section-grid lower-grid">
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Next Actions</span>
+              <h2>권장 후속 작업</h2>
+            </div>
+          </div>
+          <ul id="next-actions" class="bullet-list"></ul>
+        </article>
+
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Artifacts</span>
+              <h2>원본 산출물 바로가기</h2>
+            </div>
+          </div>
+          <div id="artifact-links" class="artifact-list"></div>
+        </article>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

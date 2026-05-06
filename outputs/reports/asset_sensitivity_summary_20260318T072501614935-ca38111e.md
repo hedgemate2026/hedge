@@ -1,0 +1,76 @@
+# HedgeMate 자산 민감도 요약
+
+- run_id: 20260318T072501614935-ca38111e
+- data_version: 20260311T191644822219-60e09191
+- 현재 run에서 사용한 정량 민감도 축:
+  - `market_beta_sp500` (beta_sp500_1y_krw)
+  - `downside_beta_sp500` (downside_beta_sp500_1y_krw)
+  - `corr_sp500_60d` (corr_sp500_60d_krw)
+  - `corr_kospi200_60d` (corr_kospi200_60d_krw)
+  - `stress_response` (avg_stress_ret_krw)
+- 방향(sign) 규칙: `positive`=같은 방향, `negative`=반대 방향, `neutral`=유의미한 민감도 미약
+- 크기(magnitude): 각 factor raw value의 절대값
+- confidence: magnitude 기반 휴리스틱(low/medium/high)
+- 구조 태그(structural_tags): `usd_exposure`, `rate_proxy`, `inflation_proxy`, `geopolitical_proxy`, `defensive_proxy`
+- 참고: 직접 매크로 시계열(FX/금리/인플레이션) 민감도는 차기 단계에서 확장 예정이며, 현재 run은 시장/스트레스 기반 factor + 구조 태그를 저장한다.
+
+## market_beta_sp500
+- metric: `beta_sp500_1y_krw`
+- positive 의미: SPY와 같은 방향
+- negative 의미: SPY와 반대 방향
+- direction count: positive 50, negative 5, neutral 15, unknown 0
+- magnitude 상위 5개:
+  - NVDA: direction=positive, magnitude=1.919334, confidence=high, evidence=beta_sp500_1y_krw=1.919334
+  - TSLA: direction=positive, magnitude=1.802684, confidence=high, evidence=beta_sp500_1y_krw=1.802684
+  - SOL-USD: direction=positive, magnitude=1.632155, confidence=high, evidence=beta_sp500_1y_krw=1.632155
+  - AVGO: direction=positive, magnitude=1.532589, confidence=high, evidence=beta_sp500_1y_krw=1.532589
+  - META: direction=positive, magnitude=1.462456, confidence=high, evidence=beta_sp500_1y_krw=1.462456
+
+## downside_beta_sp500
+- metric: `downside_beta_sp500_1y_krw`
+- positive 의미: 미국 증시 하락일에 함께 하락
+- negative 의미: 미국 증시 하락일에 반대로 움직임
+- direction count: positive 51, negative 6, neutral 13, unknown 0
+- magnitude 상위 5개:
+  - NVDA: direction=positive, magnitude=1.809297, confidence=high, evidence=downside_beta_sp500_1y_krw=1.809297
+  - TSLA: direction=positive, magnitude=1.780829, confidence=high, evidence=downside_beta_sp500_1y_krw=1.780829
+  - AMZN: direction=positive, magnitude=1.554171, confidence=high, evidence=downside_beta_sp500_1y_krw=1.554171
+  - AVGO: direction=positive, magnitude=1.527886, confidence=high, evidence=downside_beta_sp500_1y_krw=1.527886
+  - META: direction=positive, magnitude=1.463222, confidence=high, evidence=downside_beta_sp500_1y_krw=1.463222
+
+## corr_sp500_60d
+- metric: `corr_sp500_60d_krw`
+- positive 의미: SPY와 같은 방향
+- negative 의미: SPY와 반대 방향
+- direction count: positive 50, negative 19, neutral 1, unknown 0
+- magnitude 상위 5개:
+  - SPY: direction=positive, magnitude=1.0, confidence=high, evidence=corr_sp500_60d_krw=1.0
+  - VTI: direction=positive, magnitude=0.997591, confidence=high, evidence=corr_sp500_60d_krw=0.997591
+  - QQQ: direction=positive, magnitude=0.954873, confidence=high, evidence=corr_sp500_60d_krw=0.954873
+  - DIA: direction=positive, magnitude=0.912647, confidence=high, evidence=corr_sp500_60d_krw=0.912647
+  - IWM: direction=positive, magnitude=0.872419, confidence=high, evidence=corr_sp500_60d_krw=0.872419
+
+## corr_kospi200_60d
+- metric: `corr_kospi200_60d_krw`
+- positive 의미: KOSPI200과 같은 방향
+- negative 의미: KOSPI200과 반대 방향
+- direction count: positive 20, negative 42, neutral 8, unknown 0
+- magnitude 상위 5개:
+  - 005930.KS: direction=positive, magnitude=0.942501, confidence=high, evidence=corr_kospi200_60d_krw=0.942501
+  - 000660.KS: direction=positive, magnitude=0.892238, confidence=high, evidence=corr_kospi200_60d_krw=0.892238
+  - 034020.KS: direction=positive, magnitude=0.755471, confidence=high, evidence=corr_kospi200_60d_krw=0.755471
+  - 035720.KS: direction=positive, magnitude=0.738983, confidence=high, evidence=corr_kospi200_60d_krw=0.738983
+  - 003670.KS: direction=positive, magnitude=0.690082, confidence=high, evidence=corr_kospi200_60d_krw=0.690082
+
+## stress_response
+- metric: `avg_stress_ret_krw`
+- positive 의미: 위기구간에서 플러스 성과
+- negative 의미: 위기구간에서 마이너스 성과
+- direction count: positive 19, negative 31, neutral 20, unknown 0
+- magnitude 상위 5개:
+  - SOL-USD: direction=positive, magnitude=0.013669, confidence=high, evidence=avg_stress_ret_krw=0.013669
+  - 003670.KS: direction=negative, magnitude=0.009845, confidence=high, evidence=avg_stress_ret_krw=-0.009845
+  - BNB-USD: direction=positive, magnitude=0.009049, confidence=high, evidence=avg_stress_ret_krw=0.009049
+  - 035720.KS: direction=negative, magnitude=0.009048, confidence=high, evidence=avg_stress_ret_krw=-0.009048
+  - 006400.KS: direction=negative, magnitude=0.008172, confidence=high, evidence=avg_stress_ret_krw=-0.008172
+

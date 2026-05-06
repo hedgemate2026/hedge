@@ -1,0 +1,2 @@
+scenario,vol_annual,mdd,cvar_95,annual_return_krw,sharpe_krw_proxy,vol_improve_pct,mdd_improve_pct,cvar_improve_pct,sharpe_improve_pct,stress_improve,no_recommendation_reason
+기존 포트폴리오,0.267909,-0.472433,-0.037205,0.2778,0.92494,0.0,0.0,0.0,0.0,0.0,Gate 통과 후보가 없어 참고안을 표시합니다. 리스크 관리가 어렵습니다.

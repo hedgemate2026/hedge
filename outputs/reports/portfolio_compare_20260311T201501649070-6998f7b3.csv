@@ -1,0 +1,4 @@
+scenario,vol_annual,mdd,cvar_95,annual_return_krw,sharpe_krw_proxy,vol_improve_pct,mdd_improve_pct,cvar_improve_pct,sharpe_improve_pct,stress_improve,no_recommendation_reason
+기존 포트폴리오,0.205068,-0.190807,-0.025448,0.373135,1.673272,0.0,0.0,0.0,0.0,0.0,
+제안(1:1) - SHY,0.17296,-0.153301,-0.021627,0.321683,1.686421,15.657554,19.656916,15.015695,0.785802,4.5e-05,
+제안(다자산) - GLD + SHY,0.173554,-0.157808,-0.021686,0.334802,1.756236,15.367594,17.294444,14.781527,4.958174,2.3e-05,

@@ -1,0 +1,4 @@
+scenario,vol_annual,mdd,cvar_95,annual_return_krw,sharpe_krw_proxy,vol_improve_pct,mdd_improve_pct,cvar_improve_pct,sharpe_improve_pct,stress_improve,no_recommendation_reason
+기준(AAPL 100%),0.282572,-0.320566,-0.039909,0.232355,0.716119,0.0,0.0,0.0,0.0,0.0,
+제안(1:1) - SHY,0.239838,-0.270622,-0.033923,0.210694,0.753399,15.123194,15.580149,15.000674,5.205768,2e-06,
+제안(다자산) - IEF + XLV,0.244109,-0.271909,-0.034465,0.212688,0.748389,13.61178,15.178451,13.642591,4.506205,2e-05,

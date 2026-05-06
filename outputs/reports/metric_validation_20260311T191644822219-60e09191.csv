@@ -1,0 +1,8 @@
+metric,expected,actual,abs_error,tolerance,status
+vol_annual,0.305352,0.305352,0.0,0.0,PASS
+mdd,-0.272727,-0.272727,0.0,0.0,PASS
+var_95,-0.09,-0.09,0.0,0.0,PASS
+cvar_95,-0.1,-0.1,0.0,0.0,PASS
+beta,2.0,2.0,0.0,0.0,PASS
+corr,1.0,1.0,0.0,0.0,PASS
+sharpe_proxy,14.498035,14.498035,0.0,0.0,PASS

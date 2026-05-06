@@ -1,0 +1,4 @@
+scenario,vol_annual,mdd,cvar_95,annual_return_krw,sharpe_krw_proxy,vol_improve_pct,mdd_improve_pct,cvar_improve_pct,sharpe_improve_pct,stress_improve,no_recommendation_reason
+기준(KO 100%),0.180227,-0.17065,-0.025523,0.19134,0.895206,0.0,0.0,0.0,0.0,0.0,
+제안(1:1) - GLD,0.156678,-0.151976,-0.022366,0.19833,1.07437,13.066073,10.942993,12.37105,20.013809,0.00015,
+제안(다자산) - GLD + SHY,0.157304,-0.147668,-0.022425,0.185601,0.989174,12.718666,13.467102,12.137683,10.496813,0.000193,
