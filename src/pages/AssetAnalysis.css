@@ -1,0 +1,179 @@
+.analysis-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1.5rem;
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0 1rem;
+}
+
+.search-input-wrapper input {
+  border: none;
+  background: transparent;
+  padding: 0.75rem 0.5rem;
+}
+.search-input-wrapper input:focus { border: none; }
+.search-input-wrapper:focus-within { border-color: var(--accent-base); }
+
+.input-with-symbol {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0 1rem;
+  color: var(--text-secondary);
+}
+.input-with-symbol span { font-weight: 500; }
+.input-with-symbol input {
+  border: none;
+  background: transparent;
+  text-align: right;
+  padding: 0.75rem 0.5rem;
+}
+.input-with-symbol:focus-within { border-color: var(--accent-base); }
+
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.history-item:hover { border-color: var(--text-secondary); }
+
+.history-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bg-blue-dim { background-color: rgba(96, 165, 250, 0.1); }
+.bg-orange-dim { background-color: rgba(245, 158, 11, 0.1); }
+.text-warning { color: #f59e0b; }
+
+.right-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.bg-dark { background-color: var(--bg-input); color: white; }
+
+.map-placeholder {
+  flex: 1;
+  background: radial-gradient(circle at center, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.02);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem 0;
+}
+
+.progress-bar {
+  height: 4px;
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  margin: 0 2rem;
+}
+.progress-fill {
+  width: 60%;
+  height: 100%;
+  background-color: var(--accent-light);
+  border-radius: 2px;
+  box-shadow: 0 0 10px var(--accent-light);
+}
+
+.signal-cards {
+  padding: 0 2rem;
+}
+.signal-card {
+  flex: 1;
+  background-color: rgba(0,0,0,0.3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  text-align: center;
+}
+
+.badge-info {
+  background-color: rgba(0,0,0,0.2);
+  border: 1px solid var(--border-color);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+}
+
+/* Suggestions Dropdown */
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  z-index: 100;
+  margin-top: 4px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+.suggestion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.suggestion-item:hover {
+  background-color: rgba(168, 85, 247, 0.1);
+}
+
+/* Analyzing spinner */
+.analyzing-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Hedge result */
+.hedge-result {
+  padding: 1.25rem;
+  background-color: rgba(168, 85, 247, 0.05);
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  border-radius: var(--radius-md);
+}
+
+.flex-1 { flex: 1; }
+.text-4xl { font-size: 2.25rem; }
+.text-2xl { font-size: 1.5rem; }
+.text-xl { font-size: 1.25rem; }
+.text-3xl { font-size: 1.875rem; }
+.mb-10 { margin-bottom: 2.5rem; }
+.tracking-wider { letter-spacing: 0.1em; }
+.tracking-widest { letter-spacing: 0.15em; }

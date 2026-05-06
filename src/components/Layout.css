@@ -1,0 +1,53 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  padding: 2rem 3rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Topnav Styles */
+.topnav {
+  height: var(--topbar-height);
+  background-color: var(--bg-deep);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+
+.topnav-search {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-card);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  width: 300px;
+  gap: 0.5rem;
+}
+
+.topnav-search input {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.topnav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  color: var(--text-secondary);
+}

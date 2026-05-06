@@ -1,0 +1,38 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  border: none;
+  gap: 0.5rem;
+  color: var(--text-primary);
+}
+
+.btn-primary {
+  background: linear-gradient(to right, #c084fc, #a855f7);
+  color: white;
+}
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+}
+.btn-secondary:hover {
+  background-color: var(--border-color);
+}
+
+.btn-text {
+  background: transparent;
+  color: var(--text-primary);
+}
+.btn-text:hover {
+  color: var(--accent-light);
+}

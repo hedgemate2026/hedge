@@ -1,0 +1,104 @@
+.sensitivity-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.5rem;
+}
+
+.left-dash { display: flex; flex-direction: column; }
+.right-dash { display: flex; flex-direction: column; }
+
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: white;
+  background-color: #ef4444; /* KIA Red-ish */
+}
+
+.score-circle-container { padding: 1rem 0; }
+.score-circle {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-ring {
+  position: absolute;
+  top: 0; left: 0;
+  width: 120px; height: 120px;
+  transform: rotate(-90deg);
+}
+
+.ring-bg {
+  fill: none;
+  stroke: var(--border-color);
+  stroke-width: 6;
+}
+
+.ring-fill {
+  fill: none;
+  stroke: var(--accent-light);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 339.292; /* 2 * PI * 54 */
+  stroke-dashoffset: 61.07; /* ~82% of 339 */
+}
+
+.metric-row-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.heatmap-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.heatmap-row {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.header-row { margin-bottom: 0.5rem; }
+
+.axis-label {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.y-axis { width: 50px; text-align: left; }
+.x-axis { flex: 1; text-align: center; }
+
+.heatmap-cell {
+  flex: 1;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.heatmap-cell:hover { transform: scale(1.05); }
+
+.cell-low { background-color: #2d2d3a; }
+.cell-med { background-color: #6a4c9c; }
+.cell-high { background-color: #c084fc; box-shadow: 0 0 12px rgba(192,132,252,0.4); }
+
+.heatmap-note {
+  font-style: italic;
+  line-height: 1.6;
+  border-top: 1px dashed var(--border-dashed);
+  padding-top: 1rem;
+}

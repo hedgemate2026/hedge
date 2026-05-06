@@ -1,0 +1,254 @@
+/* ─── Flow Breadcrumb ─── */
+.flow-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.flow-crumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.flow-crumb.active {
+  color: var(--accent-light);
+  font-weight: 600;
+}
+
+.crumb-step {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.flow-crumb.active .crumb-step {
+  border-color: var(--accent-light);
+  background: rgba(168, 85, 247, 0.2);
+  color: var(--accent-light);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
+}
+
+.flow-arrow {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+
+/* ─── Success State ─── */
+.success-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(168, 85, 247, 0.1);
+  border: 2px solid rgba(168, 85, 247, 0.25);
+  margin: 0 auto;
+  animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes successPop {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.status-badge-new {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--accent-light);
+  animation: badgeFadeIn 0.5s ease 0.3s both;
+}
+
+@keyframes badgeFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.success-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ─── Existing Styles ─── */
+.portfolio-reg .top-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1.5rem;
+}
+
+.card-box {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: rgba(168, 85, 247, 0.15);
+  color: var(--accent-light);
+  border-radius: 6px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.badge {
+  font-size: 0.65rem;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(60, 60, 80, 0.5);
+  color: var(--text-secondary);
+  border-radius: 12px;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.upload-area {
+  border: 1px dashed var(--border-dashed);
+  border-radius: var(--radius-md);
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.upload-area:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+  border-color: var(--text-secondary);
+}
+
+.text-accent {
+  color: var(--accent-light);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.manual-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.75rem;
+}
+
+.manual-table th {
+  text-align: left;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  padding-bottom: 0.5rem;
+}
+
+.manual-table td {
+  padding-right: 1rem;
+}
+
+.manual-table input {
+  padding: 0.65rem 1rem;
+}
+
+.trash-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  background-color: var(--bg-input);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.trash-btn:hover {
+  color: var(--text-primary);
+  background-color: var(--border-color);
+}
+
+.upload-area.drag-over {
+  background-color: rgba(168, 85, 247, 0.05);
+  border-color: var(--accent-light);
+}
+
+.uploaded-file {
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: rgba(0,0,0,0.2);
+}
+
+.upload-progress {
+  height: 4px;
+  background-color: var(--border-color);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.upload-progress-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, #c084fc, #a855f7);
+  border-radius: 2px;
+}
+
+.portfolio-preview {
+  padding: 1rem;
+  background-color: rgba(168, 85, 247, 0.05);
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  border-radius: var(--radius-md);
+}
+
+.total-bar {
+  padding: 1rem 0;
+  border-top: 1px solid var(--border-color);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

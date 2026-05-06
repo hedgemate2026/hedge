@@ -1,0 +1,516 @@
+.stress-test-page {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.text-warning { color: #f59e0b; }
+.text-loss { color: #ef4444; }
+.text-green { color: #059669; }
+
+/* ─── Steps ─── */
+.sim-step {
+  /* each step in the simulation flow */
+}
+
+.step-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c084fc, #a855f7);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ─── Portfolio Chips ─── */
+.portfolio-chips {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.portfolio-chips::-webkit-scrollbar {
+  height: 4px;
+}
+
+.portfolio-chips::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.portfolio-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-align: left;
+  color: var(--text-primary);
+  min-width: 200px;
+}
+
+.portfolio-chip:hover {
+  border-color: rgba(168, 85, 247, 0.25);
+  background: rgba(168, 85, 247, 0.03);
+}
+
+.portfolio-chip.active {
+  border-color: rgba(168, 85, 247, 0.5);
+  background: rgba(168, 85, 247, 0.08);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.1);
+}
+
+.chip-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chip-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.chip-meta {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.chip-new {
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #c084fc, #a855f7);
+  color: white;
+}
+
+/* ─── Scenario Grid ─── */
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.scenario-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+  color: var(--text-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.scenario-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--scenario-color);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.scenario-card:hover {
+  border-color: var(--scenario-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.scenario-card:hover::before {
+  opacity: 0.5;
+}
+
+.scenario-card.active {
+  border-color: var(--scenario-color);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--scenario-color) 15%, transparent);
+}
+
+.scenario-card.active::before {
+  opacity: 1;
+}
+
+.scenario-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.scenario-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.scenario-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.scenario-desc {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.scenario-example {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.scenario-severity {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.severity-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.severity-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* ─── Simulation Run Bar ─── */
+.sim-run-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+}
+
+.sim-run-info {
+  color: var(--text-secondary);
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Simulation Results ─── */
+.sim-results {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  animation: resultsFadeIn 0.5s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.sim-results::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--scenario-color), transparent);
+}
+
+@keyframes resultsFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.result-scenario-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-impact-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 10px;
+}
+
+/* ─── Impact Grid ─── */
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.impact-card {
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.impact-card.loss-card {
+  border-color: rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.impact-label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.impact-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-top: 0.5rem;
+  color: var(--text-primary);
+}
+
+.impact-value.loss { color: #ef4444; }
+.impact-value.warning { color: #f59e0b; }
+
+.impact-sublabel {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* ─── Asset Impact Section ─── */
+.asset-impact-section {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-primary);
+}
+
+.asset-impact-table {
+  animation: slideDown 0.25s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; max-height: 0; }
+  to { opacity: 1; max-height: 600px; }
+}
+
+.impact-table-header {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1fr 1.2fr 1.2fr;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.impact-table-row {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1fr 1.2fr 1.2fr;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  align-items: center;
+  border-bottom: 1px solid rgba(46, 46, 56, 0.5);
+  transition: background 0.15s;
+}
+
+.impact-table-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.impact-table-row:last-child {
+  border-bottom: none;
+}
+
+.asset-name-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.text-right { text-align: right; }
+
+/* ─── Impact Bar Visualization ─── */
+.impact-bars-section {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.impact-bar-row {
+  margin-bottom: 0.75rem;
+}
+
+.impact-bar-row:last-child {
+  margin-bottom: 0;
+}
+
+.impact-bar-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.impact-bar-track {
+  height: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.impact-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s ease-out;
+}
+
+.impact-bar-fill.negative {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.impact-bar-fill.positive {
+  background: linear-gradient(90deg, #059669, #10b981);
+}
+
+/* ─── Hedge Recommendation ─── */
+.hedge-rec-section {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.hedge-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.hedge-card {
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.hedge-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+.hedge-asset-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.hedge-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.hedge-value.positive { color: #059669; }
+.hedge-value.negative { color: #ef4444; }
+
+/* ─── Empty State ─── */
+.empty-report {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 2rem;
+}
+
+.empty-report-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(168, 85, 247, 0.08);
+  border: 1.5px solid rgba(168, 85, 247, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+/* ─── Utilities ─── */
+.tracking-wider { letter-spacing: 0.05em; }
+.font-bold { font-weight: 700; }
+.mb-6 { margin-bottom: 1.5rem; }

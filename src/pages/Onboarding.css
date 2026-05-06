@@ -1,0 +1,335 @@
+.onboarding-container {
+  min-height: 100vh;
+  background-color: #09090b;
+  color: #fafafa;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+  opacity: 0;
+  transition: opacity 0.8s ease-out;
+}
+
+.onboarding-container.is-mounted {
+  opacity: 1;
+}
+
+/* Background Effects */
+.ob-bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  opacity: 0.4;
+  animation: float 20s ease-in-out infinite alternate;
+}
+
+.glow-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(168,85,247,0) 70%);
+  top: -200px;
+  left: -200px;
+}
+
+.glow-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(96,165,250,0.3) 0%, rgba(96,165,250,0) 70%);
+  bottom: -100px;
+  right: -100px;
+  animation-delay: -10s;
+}
+
+.ob-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-size: 50px 50px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  z-index: 0;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(50px) scale(1.1); }
+  100% { transform: translateY(-30px) scale(0.9); }
+}
+
+/* Content Layout */
+.ob-content {
+  position: relative;
+  z-index: 10;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.ob-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-icon-wrap {
+  width: 40px;
+  height: 40px;
+  background: rgba(46, 46, 56, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: white;
+}
+
+/* Hero Section */
+.ob-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 6rem 0 4rem;
+  animation: slideUpFade 1s ease-out 0.2s both;
+}
+
+.ob-hero-badge {
+  padding: 0.5rem 1.25rem;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  color: #c084fc;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 2rem;
+}
+
+.ob-hero-title {
+  font-size: 4rem;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #e879f9, #c084fc, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ob-hero-subtitle {
+  font-size: 1.1rem;
+  color: #a1a1aa;
+  max-width: 580px;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+}
+
+/* Primary CTA Button */
+.ob-hero-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.ob-btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: white;
+  color: black;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ob-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+}
+
+/* Steps Section */
+.ob-steps-section {
+  padding: 4rem 0;
+  animation: slideUpFade 1s ease-out 0.4s both;
+}
+
+.ob-steps-heading {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+}
+
+.ob-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.ob-step-card {
+  position: relative;
+  background: rgba(24, 24, 27, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.ob-step-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ob-step-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.ob-step-card:hover::before {
+  opacity: 1;
+}
+
+.ob-step-num {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 8rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.02);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.ob-step-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.ob-step-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.ob-step-desc {
+  font-size: 0.9rem;
+  color: #a1a1aa;
+  line-height: 1.6;
+}
+
+/* Bottom Features Banner */
+.ob-feature-banner {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  animation: slideUpFade 1s ease-out 0.6s both;
+}
+
+.ob-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Light Mode Overrides --- */
+:root.light-mode .onboarding-container {
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+}
+
+:root.light-mode .logo-text,
+:root.light-mode .ob-hero-title,
+:root.light-mode .ob-steps-heading,
+:root.light-mode .ob-step-title {
+  color: var(--text-primary);
+}
+
+:root.light-mode .ob-hero-subtitle,
+:root.light-mode .ob-step-desc,
+:root.light-mode .ob-feature-item {
+  color: var(--text-secondary);
+}
+
+:root.light-mode .logo-icon-wrap {
+  background: var(--bg-card);
+  border-color: var(--border-color);
+}
+
+:root.light-mode .ob-btn-primary {
+  background: var(--text-primary);
+  color: var(--bg-main);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+:root.light-mode .ob-btn-primary:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+:root.light-mode .ob-step-card {
+  background: var(--bg-card);
+  border-color: var(--border-color);
+}
+
+:root.light-mode .ob-step-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  border-color: var(--accent-light);
+}
+
+:root.light-mode .ob-step-num {
+  color: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .ob-bg-grid {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+}
+
+:root.light-mode .ob-feature-banner {
+  border-color: var(--border-color);
+}
