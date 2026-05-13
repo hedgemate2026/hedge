@@ -74,3 +74,38 @@ export const getTickerQuote = async (ticker) => {
     return null;
   }
 };
+
+export const getTickerHistory = async (ticker, range = '1y', interval = '1d') => {
+  if (!ticker) return null;
+  
+  try {
+    const response = await fetch(`/api/yahoo/v8/finance/chart/${encodeURIComponent(ticker)}?range=${range}&interval=${interval}`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    
+    const data = await response.json();
+    const result = data.chart?.result?.[0];
+    
+    if (!result) return null;
+    
+    const timestamps = result.timestamp || [];
+    const prices = result.indicators?.quote?.[0]?.close || [];
+    
+    // Calculate daily returns
+    const returns = [];
+    for (let i = 1; i < prices.length; i++) {
+      if (prices[i] && prices[i-1]) {
+        returns.push((prices[i] - prices[i-1]) / prices[i-1]);
+      }
+    }
+    
+    return {
+      ticker: result.meta.symbol,
+      prices,
+      timestamps,
+      returns
+    };
+  } catch (error) {
+    console.error('Error fetching ticker history:', error);
+    return null;
+  }
+};

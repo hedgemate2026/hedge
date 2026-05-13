@@ -30,6 +30,7 @@ function App() {
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/portfolios" element={<MyPortfolios />} />
                 <Route path="/stress-test" element={<StressTest />} />
+                <Route path="/stress" element={<StressTest />} />
               </Routes>
             </Layout>
           } />

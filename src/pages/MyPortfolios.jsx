@@ -15,12 +15,22 @@ export const MyPortfolios = () => {
   const navigate = useNavigate();
   const { portfolios, deletePortfolio } = usePortfolios();
   const [expandedId, setExpandedId] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
 
-  const handleDelete = (e, id) => {
+  const handleDeleteClick = (e, id) => {
     e.stopPropagation();
-    if (confirm('이 포트폴리오를 삭제하시겠습니까?')) {
-      deletePortfolio(id);
-    }
+    setDeletingId(id);
+  };
+
+  const confirmDelete = (e, id) => {
+    e.stopPropagation();
+    deletePortfolio(id);
+    setDeletingId(null);
+  };
+
+  const cancelDelete = (e) => {
+    e.stopPropagation();
+    setDeletingId(null);
   };
 
   const handleView = (e, id) => {
@@ -29,6 +39,7 @@ export const MyPortfolios = () => {
   };
 
   const toggleExpand = (id) => {
+    if (deletingId) return; // Don't toggle while deleting
     setExpandedId(prev => prev === id ? null : id);
   };
 
@@ -40,6 +51,21 @@ export const MyPortfolios = () => {
 
   return (
     <div className="my-portfolios-page">
+      {/* Custom Delete Modal Overlay */}
+      {deletingId && (
+        <div className="modal-overlay" onClick={cancelDelete}>
+          <div className="delete-modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-icon"><AlertTriangle size={32} className="text-red" /></div>
+            <h3>포트폴리오 삭제</h3>
+            <p>정말로 이 포트폴리오를 삭제하시겠습니까?<br/>삭제된 데이터는 복구할 수 없습니다.</p>
+            <div className="modal-actions">
+              <Button variant="secondary" onClick={cancelDelete}>취소</Button>
+              <Button variant="primary" className="bg-red" onClick={(e) => confirmDelete(e, deletingId)}>삭제하기</Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Flow Breadcrumb */}
       <div className="flow-breadcrumb mb-6">
         <span className="flow-crumb" onClick={() => navigate('/')} style={{cursor:'pointer'}}>
@@ -222,7 +248,7 @@ export const MyPortfolios = () => {
                       <Button variant="primary" className="flex-1 text-sm" onClick={(e) => handleView(e, p.id)}>
                         <Eye size={14} /> 분석 리포트 보기 <ArrowRight size={12} />
                       </Button>
-                      <Button variant="outline" className="text-sm text-danger" onClick={(e) => handleDelete(e, p.id)} style={{color: '#f87171', borderColor: 'rgba(248,113,113,0.3)'}}>
+                      <Button variant="outline" className="text-sm text-danger btn-delete" onClick={(e) => handleDeleteClick(e, p.id)}>
                         <Trash2 size={14} /> 삭제
                       </Button>
                     </div>
