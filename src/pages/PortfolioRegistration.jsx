@@ -1,25 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import Tesseract from 'tesseract.js';
 import { UploadCloud, Trash2, Shield, FileText, Image as ImageIcon, List, Plus, CheckCircle, X, ArrowRight, Briefcase, Loader2 } from 'lucide-react';
 import { Button } from '../components/Button';
 import { useNavigate } from 'react-router-dom';
 import { usePortfolios } from '../context/PortfolioContext';
+import { getTickerQuote } from '../services/yahooFinance';
+import { debounce, ASSET_DATABASE } from '../utils/helpers';
 import './PortfolioRegistration.css';
 
-const TICKER_DB = {
-  'AAPL': { name: 'Apple Inc.', price: 178.72, sector: 'Technology' },
-  'NVDA': { name: 'NVIDIA Corp.', price: 875.28, sector: 'Technology' },
-  'MSFT': { name: 'Microsoft Corp.', price: 415.50, sector: 'Technology' },
-  'GOOGL': { name: 'Alphabet Inc.', price: 141.80, sector: 'Communication' },
-  'AMZN': { name: 'Amazon.com Inc.', price: 178.15, sector: 'Consumer Cyclical' },
-  'TSLA': { name: 'Tesla Inc.', price: 171.05, sector: 'Consumer Cyclical' },
-  'META': { name: 'Meta Platforms', price: 485.58, sector: 'Communication' },
-  'JPM':  { name: 'JPMorgan Chase', price: 196.20, sector: 'Financial' },
-  'V':    { name: 'Visa Inc.', price: 276.42, sector: 'Financial' },
-  'BRK.B': { name: 'Berkshire Hathaway', price: 408.88, sector: 'Financial' },
-  'KIA':  { name: '기아', price: 114200, sector: 'Consumer Cyclical' },
-  'SAMSUNG': { name: '삼성전자', price: 71500, sector: 'Technology' },
-};
+const TICKER_DB = ASSET_DATABASE;
 
 export const PortfolioRegistration = () => {
   const navigate = useNavigate();
@@ -48,20 +37,40 @@ export const PortfolioRegistration = () => {
     setRows(prev => prev.filter(r => r.id !== id));
   };
 
+  // Debounced ticker lookup
+  const debouncedLookup = useCallback(
+    debounce(async (id, ticker) => {
+      const upper = ticker.toUpperCase();
+      if (TICKER_DB[upper]) {
+        setRows(prev => prev.map(r => r.id === id ? { 
+          ...r, 
+          name: TICKER_DB[upper].name, 
+          cost: r.cost || TICKER_DB[upper].price 
+        } : r));
+      } else {
+        const quote = await getTickerQuote(upper);
+        if (quote) {
+          setRows(prev => prev.map(r => {
+            if (r.id === id && r.ticker.toUpperCase() === upper) {
+              return { ...r, name: quote.name, cost: r.cost || quote.price };
+            }
+            return r;
+          }));
+        }
+      }
+    }, 500),
+    []
+  );
+
   const updateRow = (id, field, value) => {
     setRows(prev => prev.map(r => {
       if (r.id !== id) return r;
-      const updated = { ...r, [field]: value };
-      // Auto-fill name when ticker matches
-      if (field === 'ticker') {
-        const upper = value.toUpperCase();
-        if (TICKER_DB[upper]) {
-          updated.name = TICKER_DB[upper].name;
-          if (!updated.cost) updated.cost = TICKER_DB[upper].price;
-        }
-      }
-      return updated;
+      return { ...r, [field]: value };
     }));
+
+    if (field === 'ticker' && value.length >= 2) {
+      debouncedLookup(id, value);
+    }
   };
 
   const totalValue = rows.reduce((sum, r) => sum + (r.qty * r.cost), 0);

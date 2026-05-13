@@ -1,73 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Search, BarChart2, Globe, Shield, Zap, TrendingUp, AlertCircle, Loader2, ArrowRight } from 'lucide-react';
 import { Button } from '../components/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { searchTickers, getTickerQuote } from '../services/yahooFinance';
+import { debounce, ASSET_DATABASE, generateSimulatedMetrics } from '../utils/helpers';
 import './AssetAnalysis.css';
 
-const ASSET_DB = {
-  'AAPL':  { name: 'Apple Inc.',       price: 178.72, riskVol: 14.2, correlation: 'Moderate Positive', alpha: 0.91, beta: 1.05, confidence: 96, hedgeAsset: 'SHY (단기국채 ETF)', mddReduction: 18.4 },
-  'NVDA':  { name: 'NVIDIA Corp.',      price: 875.28, riskVol: 28.7, correlation: 'Strong Positive',  alpha: 1.42, beta: 1.68, confidence: 88, hedgeAsset: 'GLD (금 ETF)',       mddReduction: 22.1 },
-  'MSFT':  { name: 'Microsoft Corp.',   price: 415.50, riskVol: 12.8, correlation: 'Moderate Positive', alpha: 0.78, beta: 0.95, confidence: 97, hedgeAsset: 'SHY (단기국채 ETF)', mddReduction: 15.2 },
-  'TSLA':  { name: 'Tesla Inc.',        price: 171.05, riskVol: 42.3, correlation: 'Strong Positive',  alpha: 0.34, beta: 1.92, confidence: 72, hedgeAsset: 'SQQQ (인버스 ETF)',  mddReduction: 31.5 },
-  'BTC':   { name: 'Bitcoin',           price: 67420,  riskVol: 58.1, correlation: 'Weak Positive',    alpha: 0.55, beta: 2.15, confidence: 65, hedgeAsset: 'GLD (금 ETF)',       mddReduction: 28.9 },
-  'GOOGL': { name: 'Alphabet Inc.',     price: 141.80, riskVol: 16.5, correlation: 'Moderate Positive', alpha: 0.82, beta: 1.12, confidence: 94, hedgeAsset: 'SHY (단기국채 ETF)', mddReduction: 17.3 },
-  'AMZN':  { name: 'Amazon.com Inc.',   price: 178.15, riskVol: 19.4, correlation: 'Strong Positive',  alpha: 0.67, beta: 1.22, confidence: 91, hedgeAsset: 'TLT (장기국채 ETF)', mddReduction: 20.8 },
-  'META':  { name: 'Meta Platforms',    price: 485.58, riskVol: 24.1, correlation: 'Strong Positive',  alpha: 1.15, beta: 1.35, confidence: 89, hedgeAsset: 'GLD (금 ETF)',       mddReduction: 19.7 },
-  'JPM':   { name: 'JPMorgan Chase',    price: 196.20, riskVol: 15.8, correlation: 'Moderate Positive', alpha: 0.45, beta: 1.08, confidence: 93, hedgeAsset: 'SHY (단기국채 ETF)', mddReduction: 14.6 },
-  'SPY':   { name: 'S&P 500 Index',     price: 502.10, riskVol: 12.4, correlation: 'Strong Positive',  alpha: 0.84, beta: 1.12, confidence: 94, hedgeAsset: 'SHY (단기국채 ETF)', mddReduction: 16.2 },
-};
+const ASSET_DB = ASSET_DATABASE;
 
 const HISTORY_INIT = [];
 
 const generateAssetData = (ticker) => {
-  if (ASSET_DB[ticker]) return ASSET_DB[ticker];
-
-  // Pseudo-random generation based on ticker string for consistent results
-  let hash = 0;
-  for (let i = 0; i < ticker.length; i++) {
-    hash = ticker.charCodeAt(i) + ((hash << 5) - hash);
-  }
+  const base = generateSimulatedMetrics(ticker);
   
-  const rand1 = Math.abs(hash % 100);
-  const rand2 = Math.abs((hash >> 4) % 100);
-  
-  // Decide fundamental risk metrics
-  const beta = 0.5 + (rand1 / 100) * 2; // 0.5 to 2.5
-  const riskVol = 10 + ((rand1 + rand2) % 100) / 100 * 50; // 10% to 60%
-  const alpha = -0.3 + (rand2 / 100) * 1.5; // -0.3 to 1.2
-  const confidence = 65 + (rand1 % 25); // 65% to 90%
-
+  // Decide fundamental risk metrics (additional for Analysis page)
   let correlation = 'Moderate Positive';
-  if (rand1 > 80) correlation = 'Strong Positive';
-  else if (rand1 < 20) correlation = 'Weak Positive';
-  else if (rand1 % 7 === 0) correlation = 'Negative';
+  if (base.sp500Beta > 1.4) correlation = 'Strong Positive';
+  else if (base.sp500Beta < 0.8) correlation = 'Weak Positive';
+  
+  const alpha = (base.score - 50) / 40;
 
   // Rule-based engine logic for predicting Hedge Asset & MDD Reduction
   let hedgeAsset = '';
   let mddReduction = 0;
 
-  if (beta > 1.6 && riskVol > 35) {
-    hedgeAsset = rand1 % 2 === 0 ? 'SQQQ (인버스 ETF)' : 'VIXY (변동성 지수 ETF)';
-    mddReduction = 25 + (rand1 % 10);
-  } else if (beta > 1.2 && riskVol > 20) {
-    hedgeAsset = rand2 % 2 === 0 ? 'GLD (금 ETF)' : 'TLT (초장기국채 ETF)';
-    mddReduction = 15 + (rand2 % 8);
-  } else if (beta < 1.0) {
+  if (base.sp500Beta > 1.6 && base.riskVol > 35) {
+    hedgeAsset = 'SQQQ (인버스 ETF)';
+    mddReduction = 25 + (base.score % 10);
+  } else if (base.sp500Beta > 1.2 && base.riskVol > 20) {
+    hedgeAsset = 'GLD (금 ETF)';
+    mddReduction = 15 + (base.score % 8);
+  } else if (base.sp500Beta < 1.0) {
     hedgeAsset = 'SHY (단기국채 ETF)';
-    mddReduction = 8 + (rand1 % 5);
+    mddReduction = 8 + (base.score % 5);
   } else {
     hedgeAsset = 'BIL (초단기채 ETF)';
-    mddReduction = 5 + (rand2 % 5);
+    mddReduction = 5 + (base.score % 5);
   }
 
   return {
-    name: `${ticker} Asset (AI Calc)`,
-    price: 50 + (rand1 * 2.5),
-    riskVol: parseFloat(riskVol.toFixed(1)),
+    ...base,
     correlation,
     alpha: parseFloat(alpha.toFixed(2)),
-    beta: parseFloat(beta.toFixed(2)),
-    confidence,
+    beta: base.sp500Beta,
+    confidence: base.score,
     hedgeAsset,
     mddReduction: parseFloat(mddReduction.toFixed(1))
   };
@@ -86,45 +62,96 @@ export const AssetAnalysis = () => {
   const [history, setHistory] = useState(HISTORY_INIT);
   const [suggestions, setSuggestions] = useState([]);
 
+  // Debounced search function
+  const debouncedSearch = useCallback(
+    debounce(async (val) => {
+      if (val.length >= 1) {
+        // First, filter local DB for instant results
+        const localMatches = Object.entries(ASSET_DB)
+          .filter(([ticker, data]) => 
+            ticker.toLowerCase().includes(val.toLowerCase()) || 
+            data.name.toLowerCase().includes(val.toLowerCase())
+          )
+          .map(([ticker, data]) => ({
+            ticker,
+            name: data.name,
+            source: 'local'
+          }));
+
+        // Then fetch from Yahoo Finance
+        const remoteMatches = await searchTickers(val);
+        
+        // Combine and remove duplicates
+        const combined = [...localMatches];
+        remoteMatches.forEach(rm => {
+          if (!combined.find(c => c.ticker === rm.ticker)) {
+            combined.push({ ...rm, source: 'yahoo' });
+          }
+        });
+
+        setSuggestions(combined.slice(0, 8));
+      } else {
+        setSuggestions([]);
+      }
+    }, 300),
+    []
+  );
+
   const handleSearchChange = (e) => {
     const val = e.target.value;
     setSearchQuery(val);
-    if (val.length >= 1) {
-      const matches = Object.entries(ASSET_DB)
-        .filter(([ticker, data]) => 
-          ticker.toLowerCase().includes(val.toLowerCase()) || 
-          data.name.toLowerCase().includes(val.toLowerCase())
-        )
-        .slice(0, 5);
-      setSuggestions(matches);
-    } else {
-      setSuggestions([]);
-    }
+    debouncedSearch(val);
   };
 
   const selectSuggestion = (ticker) => {
     setSearchQuery(ticker);
     setSuggestions([]);
+    
+    // Use the generator to ensure all required properties are present
+    const data = generateAssetData(ticker);
+    setResult({ ticker, ...data });
   };
 
-  const runAnalysis = (overrideTicker) => {
+  const runAnalysis = async (overrideTicker) => {
     const term = typeof overrideTicker === 'string' ? overrideTicker : searchQuery;
     const ticker = term.toUpperCase().trim();
     if (!ticker) return;
 
-    const asset = generateAssetData(ticker);
-
     setIsAnalyzing(true);
     setResult(null);
-    setTimeout(() => {
-      setResult({ ticker, ...asset });
+
+    try {
+      // Try to get real quote data
+      const quote = await getTickerQuote(ticker);
+      const asset = generateAssetData(ticker);
+
+      // Merge real data with simulated risk metrics
+      const finalAsset = {
+        ...asset,
+        name: quote?.name || asset.name,
+        price: quote?.price || asset.price,
+        realData: !!quote
+      };
+
+      setTimeout(() => {
+        setResult({ ticker, ...finalAsset });
+        setIsAnalyzing(false);
+        // Add to history
+        setHistory(prev => [
+          { 
+            ticker, 
+            name: finalAsset.name, 
+            time: '방금 전', 
+            type: finalAsset.riskVol > 25 ? 'warning' : 'up',
+            isReal: !!quote
+          },
+          ...prev.filter(h => h.ticker !== ticker).slice(0, 4),
+        ]);
+      }, 1000);
+    } catch (error) {
+      console.error('Analysis failed:', error);
       setIsAnalyzing(false);
-      // Add to history
-      setHistory(prev => [
-        { ticker, name: asset.name, time: '방금 전', type: asset.riskVol > 25 ? 'warning' : 'up' },
-        ...prev.filter(h => h.ticker !== ticker).slice(0, 4),
-      ]);
-    }, 1500);
+    }
   };
 
   useEffect(() => {
@@ -185,10 +212,13 @@ export const AssetAnalysis = () => {
               </div>
               {suggestions.length > 0 && (
                 <div className="suggestions-dropdown">
-                  {suggestions.map(([ticker, data]) => (
-                    <div key={ticker} className="suggestion-item" onClick={() => selectSuggestion(ticker)}>
-                      <span className="font-semibold">{ticker}</span>
-                      <span className="text-secondary text-xs">{data.name}</span>
+                  {suggestions.map((item) => (
+                    <div key={item.ticker} className="suggestion-item" onClick={() => selectSuggestion(item.ticker)}>
+                      <div className="flex flex-col">
+                        <span className="font-semibold">{item.ticker}</span>
+                        <span className="text-secondary text-xs truncate max-w-[200px]">{item.name}</span>
+                      </div>
+                      {item.source === 'yahoo' && <span className="yahoo-badge">Yahoo</span>}
                     </div>
                   ))}
                 </div>

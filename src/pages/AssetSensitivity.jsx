@@ -1,32 +1,54 @@
-import React, { useState } from 'react';
-import { Activity, ShieldCheck, AlertTriangle, Info, Search, ChevronRight } from 'lucide-react';
+import React, { useState, useCallback } from 'react';
+import { Activity, ShieldCheck, AlertTriangle, Info, Search, ChevronRight, Loader2 } from 'lucide-react';
+import { searchTickers, getTickerQuote } from '../services/yahooFinance';
+import { debounce, ASSET_DATABASE, generateSimulatedMetrics } from '../utils/helpers';
 import './AssetSensitivity.css';
 
-const STOCK_DB = {
-  '기아':     { code: '000270.KS', price: 114200, sector: 'Consumer Cyclical',  marketCap: '45.8T KRW', sp500Beta: 1.24, downsideBeta: 0.88, direction60d: '+18.4%', kospi200Corr: 0.72, score: 82, dirMomentum: 'Bullish', betaLabel: 'Elevated', downsideLabel: 'Defensive', corrLabel: 'Moderate', logo: 'KIA', logoColor: '#ef4444' },
-  '삼성전자': { code: '005930.KS', price: 71500,  sector: 'Technology',          marketCap: '427.2T KRW', sp500Beta: 0.95, downsideBeta: 0.72, direction60d: '+5.2%',  kospi200Corr: 0.88, score: 91, dirMomentum: 'Sideways', betaLabel: 'Moderate', downsideLabel: 'Strong Defense', corrLabel: 'High', logo: 'SEC', logoColor: '#1d4ed8' },
-  'SK하이닉스':{ code: '000660.KS', price: 178500, sector: 'Technology',          marketCap: '129.8T KRW', sp500Beta: 1.45, downsideBeta: 1.12, direction60d: '+32.1%', kospi200Corr: 0.81, score: 68, dirMomentum: 'Bullish', betaLabel: 'High', downsideLabel: 'Aggressive', corrLabel: 'High', logo: 'SKH', logoColor: '#dc2626' },
-  '현대차':   { code: '005380.KS', price: 245000, sector: 'Consumer Cyclical',  marketCap: '52.1T KRW', sp500Beta: 1.18, downsideBeta: 0.94, direction60d: '+12.7%', kospi200Corr: 0.76, score: 78, dirMomentum: 'Bullish', betaLabel: 'Elevated', downsideLabel: 'Moderate', corrLabel: 'Moderate', logo: 'HYU', logoColor: '#0369a1' },
-  'NAVER':    { code: '035420.KS', price: 215500, sector: 'Communication',     marketCap: '35.4T KRW', sp500Beta: 1.05, downsideBeta: 0.92, direction60d: '-3.8%',  kospi200Corr: 0.69, score: 74, dirMomentum: 'Bearish', betaLabel: 'Moderate', downsideLabel: 'Moderate', corrLabel: 'Moderate', logo: 'NVR', logoColor: '#16a34a' },
-  '카카오':   { code: '035720.KS', price: 42350,  sector: 'Communication',     marketCap: '18.8T KRW', sp500Beta: 0.88, downsideBeta: 1.05, direction60d: '-8.2%',  kospi200Corr: 0.62, score: 55, dirMomentum: 'Bearish', betaLabel: 'Low', downsideLabel: 'Weak', corrLabel: 'Low', logo: 'KKO', logoColor: '#eab308' },
-};
+const STOCK_DB = ASSET_DATABASE;
 
 const CORRELATION_DATA = {
-  '기아':     [[1.0, 0.35, 0.70, 0.25, 0.55], [0.35, 1.0, 0.40, 0.30, 0.20], [0.70, 0.40, 1.0, 0.15, 0.45], [0.25, 0.30, 0.15, 1.0, 0.50], [0.55, 0.20, 0.45, 0.50, 1.0]],
-  '삼성전자': [[1.0, 0.45, 0.30, 0.55, 0.80], [0.45, 1.0, 0.25, 0.40, 0.35], [0.30, 0.25, 1.0, 0.20, 0.40], [0.55, 0.40, 0.20, 1.0, 0.60], [0.80, 0.35, 0.40, 0.60, 1.0]],
+  'KIA':      [[1.0, 0.35, 0.70, 0.25, 0.55], [0.35, 1.0, 0.40, 0.30, 0.20], [0.70, 0.40, 1.0, 0.15, 0.45], [0.25, 0.30, 0.15, 1.0, 0.50], [0.55, 0.20, 0.45, 0.50, 1.0]],
+  'SAMSUNG':  [[1.0, 0.45, 0.30, 0.55, 0.80], [0.45, 1.0, 0.25, 0.40, 0.35], [0.30, 0.25, 1.0, 0.20, 0.40], [0.55, 0.40, 0.20, 1.0, 0.60], [0.80, 0.35, 0.40, 0.60, 1.0]],
   'default':  [[1.0, 0.40, 0.50, 0.30, 0.45], [0.40, 1.0, 0.35, 0.35, 0.30], [0.50, 0.35, 1.0, 0.20, 0.50], [0.30, 0.35, 0.20, 1.0, 0.55], [0.45, 0.30, 0.50, 0.55, 1.0]],
 };
+
+// Initial state helper to ensure consistent data structure
+const getInitialSensitivityData = (ticker) => {
+  return generateSensitivityData(ticker);
+};
+
+const generateSensitivityData = (ticker) => {
+  const base = generateSimulatedMetrics(ticker);
+  const dirVal = ((base.score % 20) - 10).toFixed(1);
+  const direction60d = (dirVal > 0 ? '+' : '') + dirVal + '%';
+
+  return {
+    ...base,
+    code: ticker,
+    marketCap: (base.score % 100 + 10) + '.2T KRW',
+    direction60d,
+    kospi200Corr: 0.5 + (base.score % 40) / 100, // Add missing property
+    dirMomentum: dirVal > 5 ? 'Bullish' : dirVal < -5 ? 'Bearish' : 'Sideways',
+    betaLabel: base.sp500Beta > 1.2 ? 'High' : base.sp500Beta < 0.8 ? 'Low' : 'Moderate',
+    downsideLabel: base.downsideBeta < 0.8 ? 'Strong Defense' : base.downsideBeta > 1.2 ? 'Aggressive' : 'Moderate',
+    corrLabel: 0.5 + (base.score % 40) / 100 > 0.8 ? 'High' : 'Moderate',
+  };
+};
+
 
 const SECTORS = ['TECH', 'FIN', 'CONS', 'ENRG', 'AUTO'];
 
 export const AssetSensitivity = () => {
-  const [selectedStock, setSelectedStock] = useState('기아');
+  const [selectedStockName, setSelectedStockName] = useState('KIA');
+  const [stockData, setStockData] = useState(getInitialSensitivityData('KIA'));
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
   const [hoveredCell, setHoveredCell] = useState(null);
 
-  const stock = STOCK_DB[selectedStock];
-  const corrData = CORRELATION_DATA[selectedStock] || CORRELATION_DATA['default'];
+  const stock = stockData;
+  const corrData = CORRELATION_DATA[selectedStockName] || CORRELATION_DATA['default'];
 
   const getScoreColor = (score) => {
     if (score >= 85) return '#059669';
@@ -50,62 +72,123 @@ export const AssetSensitivity = () => {
 
   const strokeDashoffset = 339.292 * (1 - stock.score / 100);
 
-  const filteredStocks = Object.keys(STOCK_DB).filter(name => 
-    name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    STOCK_DB[name].code.toLowerCase().includes(searchTerm.toLowerCase())
+  // Debounced search function
+  const debouncedSearch = useCallback(
+    debounce(async (val) => {
+      if (val.length >= 1) {
+        setIsSearching(true);
+        // Local check
+        const localMatches = Object.keys(STOCK_DB)
+          .filter(ticker => ticker.toLowerCase().includes(val.toLowerCase()) || STOCK_DB[ticker].name.toLowerCase().includes(val.toLowerCase()))
+          .map(ticker => ({
+            name: STOCK_DB[ticker].name,
+            ticker,
+            price: STOCK_DB[ticker].price,
+            logo: STOCK_DB[ticker].logo,
+            logoColor: STOCK_DB[ticker].logoColor,
+            source: 'local'
+          }));
+
+        // Yahoo check
+        const remoteMatches = await searchTickers(val);
+        const combined = [...localMatches];
+        remoteMatches.forEach(rm => {
+          if (!combined.find(c => c.ticker === rm.ticker)) {
+            combined.push({ ...rm, source: 'yahoo' });
+          }
+        });
+        
+        setSuggestions(combined.slice(0, 8));
+        setIsSearching(false);
+      } else {
+        setSuggestions([]);
+      }
+    }, 300),
+    []
   );
+
+  const handleSearchChange = (e) => {
+    const val = e.target.value;
+    setSearchTerm(val);
+    debouncedSearch(val);
+  };
+
+  const selectStock = async (item) => {
+    setSearchOpen(false);
+    setSearchTerm('');
+    setSuggestions([]);
+    
+    setSelectedStockName(item.ticker);
+    
+    if (item.source === 'local') {
+      setStockData(STOCK_DB[item.ticker]);
+    } else {
+      // Fetch full details and generate sensitivity
+      const quote = await getTickerQuote(item.ticker);
+      const generated = generateSensitivityData(item.ticker);
+      setStockData({
+        ...generated,
+        name: quote?.name || item.name,
+        price: quote?.price || generated.price,
+        code: item.ticker
+      });
+    }
+  };
 
   return (
     <div className="sensitivity-page">
-      <div className="report-header mb-6 flex justify-between items-start">
-        <div>
-          <h1 className="mb-2">자산 민감도 확인</h1>
-          <p className="text-secondary text-sm">시장 변동성에 따른 개별 자산의 리스크 노출도와 정량적 지표를 분석합니다.</p>
-        </div>
-        <div style={{position:'relative'}}>
-          <button className="stock-search-btn" onClick={() => setSearchOpen(!searchOpen)}>
-            <Search size={14} /> 종목 변경
-          </button>
-          {searchOpen && (
-            <div className="stock-dropdown">
-              <input 
-                type="text" 
-                placeholder="종목명 검색..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                autoFocus
-                className="stock-search-input"
-              />
-              {filteredStocks.map(name => (
-                <div 
-                  key={name} 
-                  className={`stock-option ${selectedStock === name ? 'active' : ''}`}
-                  onClick={() => { setSelectedStock(name); setSearchOpen(false); setSearchTerm(''); }}
-                >
-                  <div className="mini-logo" style={{backgroundColor: STOCK_DB[name].logoColor}}>{STOCK_DB[name].logo}</div>
-                  <div className="flex-1">
-                    <div className="text-sm font-medium">{name}</div>
-                    <div className="text-xs text-secondary">{STOCK_DB[name].code}</div>
-                  </div>
-                  <div className="text-sm font-medium">₩{STOCK_DB[name].price.toLocaleString()}</div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+      <div className="report-header mb-6">
+        <h1 className="mb-2">자산 민감도 확인</h1>
+        <p className="text-secondary text-sm">시장 변동성에 따른 개별 자산의 리스크 노출도와 정량적 지표를 분석합니다.</p>
       </div>
 
       <div className="sensitivity-grid mt-6">
         {/* Left Column */}
         <div className="flex-col gap-4 left-dash">
-          <div className="card-box" style={{minHeight: '220px'}}>
-             <div className="flex items-center gap-4">
-                <div className="brand-logo" style={{backgroundColor: stock.logoColor}}>{stock.logo}</div>
-                <div>
-                  <h3 className="font-bold text-xl m-0">{selectedStock}</h3>
-                  <div className="text-xs text-secondary tracking-widest mt-1">{stock.code}</div>
+          <div className="card-box asset-info-card" style={{minHeight: '240px', position: 'relative'}}>
+             <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-4">
+                  <div className="brand-logo" style={{backgroundColor: stock.logoColor}}>{stock.logo}</div>
+                  <div>
+                    <h3 className="font-bold text-xl m-0 truncate max-w-[120px]">{stock.name || selectedStockName}</h3>
+                    <div className="text-xs text-secondary tracking-widest mt-1">{stock.code}</div>
+                  </div>
                 </div>
+                <button className="icon-btn-search" onClick={() => setSearchOpen(!searchOpen)}>
+                  <Search size={18} className="text-secondary" />
+                </button>
              </div>
+
+             {searchOpen && (
+               <div className="card-search-container">
+                 <div className="search-input-container">
+                    <input 
+                      type="text" 
+                      placeholder="종목명/티커 검색..."
+                      value={searchTerm}
+                      onChange={handleSearchChange}
+                      autoFocus
+                      className="stock-search-input"
+                    />
+                    {isSearching && <Loader2 size={14} className="spin-icon search-loader" />}
+                 </div>
+                 <div className="stock-options-list mini-list">
+                    {suggestions.map(item => (
+                      <div 
+                        key={item.ticker} 
+                        className="stock-option"
+                        onClick={() => selectStock(item)}
+                      >
+                        <div className="mini-logo" style={{backgroundColor: item.logoColor || '#3b82f6'}}>{item.logo || item.ticker.substring(0, 2)}</div>
+                        <div className="flex-1">
+                          <div className="text-sm font-medium">{item.name}</div>
+                          <div className="text-xs text-secondary">{item.ticker}</div>
+                        </div>
+                      </div>
+                    ))}
+                 </div>
+               </div>
+             )}
              
              <div className="mt-6">
                 <div className="text-xs text-secondary font-semibold tracking-wider mb-2">CURRENT PRICE</div>
@@ -253,7 +336,7 @@ export const AssetSensitivity = () => {
                 )}
 
                 <div className="heatmap-note mt-6 text-xs text-secondary">
-                  <span className="text-accent-light font-bold">Note:</span> {selectedStock}의 {stock.sector} 섹터는 주요 시장 섹터와의 상관관계를 기반으로 분석됩니다. 낮은 상관관계의 섹터를 헷지 자산으로 활용하면 포트폴리오 분산 효과를 극대화할 수 있습니다.
+                  <span className="text-accent-light font-bold">Note:</span> {stock.name || selectedStockName}의 {stock.sector} 섹터는 주요 시장 섹터와의 상관관계를 기반으로 분석됩니다. 낮은 상관관계의 섹터를 헷지 자산으로 활용하면 포트폴리오 분산 효과를 극대화할 수 있습니다.
                 </div>
               </div>
            </div>

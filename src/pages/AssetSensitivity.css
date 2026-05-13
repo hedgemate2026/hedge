@@ -102,3 +102,156 @@
   border-top: 1px dashed var(--border-dashed);
   padding-top: 1rem;
 }
+
+/* Stock Search UI */
+.icon-btn-search {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn-search:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.card-search-container {
+  position: absolute;
+  top: 60px;
+  left: 1rem;
+  right: 1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  z-index: 10;
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mini-list {
+  max-height: 200px;
+}
+
+.stock-search-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-medium: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.stock-search-btn:hover {
+  background: var(--hover-bg);
+  border-color: var(--accent-light);
+}
+
+.stock-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 320px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  margin-top: 0.5rem;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.search-input-container {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+.stock-search-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.search-loader {
+  position: absolute;
+  right: 1.25rem;
+  top: 1.25rem;
+  color: var(--accent-light);
+}
+
+.stock-options-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.stock-option {
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.stock-option:hover {
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.stock-option.active {
+  background: rgba(124, 58, 237, 0.2);
+}
+
+.mini-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.65rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.yahoo-tag {
+  font-size: 0.6rem;
+  background: rgba(124, 58, 237, 0.2);
+  color: #c084fc;
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-top: 2px;
+  display: inline-block;
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
