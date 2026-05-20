@@ -4,7 +4,7 @@ import { UploadCloud, Trash2, Shield, FileText, Image as ImageIcon, List, Plus, 
 import { Button } from '../components/Button';
 import { useNavigate } from 'react-router-dom';
 import { usePortfolios } from '../context/PortfolioContext';
-import { getTickerQuote } from '../services/yahooFinance';
+import { getTickerQuote, searchTickers } from '../services/yahooFinance';
 import { debounce, ASSET_DATABASE } from '../utils/helpers';
 import './PortfolioRegistration.css';
 
@@ -12,13 +12,13 @@ const TICKER_DB = ASSET_DATABASE;
 
 export const PortfolioRegistration = () => {
   const navigate = useNavigate();
-  const { addPortfolio } = usePortfolios();
+  const { addPortfolio, usdKrwRate } = usePortfolios();
   const fileInputRef = useRef(null);
 
   const [portfolioName, setPortfolioName] = useState('');
   const [purpose, setPurpose] = useState('장기 가치 투자');
   const [rows, setRows] = useState([
-    { id: 1, ticker: '', name: '', qty: 0, cost: 0 },
+    { id: 1, ticker: '', name: '', qty: 0, cost: 0, currency: 'USD' },
   ]);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -27,9 +27,11 @@ export const PortfolioRegistration = () => {
   const [isOcrProcessing, setIsOcrProcessing] = useState(false);
   const [ocrProgress, setOcrProgress] = useState(0);
   const nextId = useRef(2);
+  const [activeRowId, setActiveRowId] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
 
   const addRow = () => {
-    setRows(prev => [...prev, { id: nextId.current++, ticker: '', name: '', qty: 0, cost: 0 }]);
+    setRows(prev => [...prev, { id: nextId.current++, ticker: '', name: '', qty: 0, cost: 0, currency: 'USD' }]);
   };
 
   const removeRow = (id) => {
@@ -45,14 +47,15 @@ export const PortfolioRegistration = () => {
         setRows(prev => prev.map(r => r.id === id ? { 
           ...r, 
           name: TICKER_DB[upper].name, 
-          cost: r.cost || TICKER_DB[upper].price 
+          cost: r.cost || TICKER_DB[upper].price,
+          currency: TICKER_DB[upper].currency || 'USD'
         } : r));
       } else {
         const quote = await getTickerQuote(upper);
         if (quote) {
           setRows(prev => prev.map(r => {
             if (r.id === id && r.ticker.toUpperCase() === upper) {
-              return { ...r, name: quote.name, cost: r.cost || quote.price };
+              return { ...r, name: quote.name, cost: r.cost || quote.price, currency: quote.currency || 'USD' };
             }
             return r;
           }));
@@ -62,18 +65,114 @@ export const PortfolioRegistration = () => {
     []
   );
 
+  // Debounced search for ticker suggestions
+  const debouncedSearch = useCallback(
+    debounce(async (id, query) => {
+      if (!query || query.trim().length < 1) {
+        // Show default/popular assets from TICKER_DB
+        const popular = Object.keys(TICKER_DB).map(key => ({
+          ticker: key,
+          name: TICKER_DB[key].name,
+          price: TICKER_DB[key].price,
+          isLocal: true
+        }));
+        setSuggestions(popular);
+        return;
+      }
+      
+      const upperQuery = query.toUpperCase().trim();
+      
+      // 1. Find local matches in TICKER_DB
+      const localMatches = Object.keys(TICKER_DB)
+        .filter(key => key.includes(upperQuery) || TICKER_DB[key].name.toUpperCase().includes(upperQuery))
+        .map(key => ({
+          ticker: key,
+          name: TICKER_DB[key].name,
+          price: TICKER_DB[key].price,
+          isLocal: true
+        }));
+        
+      // 2. Search via Yahoo Finance Search API
+      let apiMatches = [];
+      if (query.trim().length >= 2) {
+        const apiResults = await searchTickers(query);
+        apiMatches = apiResults.map(res => ({
+          ticker: res.ticker,
+          name: res.name,
+          exchange: res.exchange,
+          isLocal: false
+        }));
+      }
+      
+      // Combine results, prioritizing local database and removing duplicates by ticker
+      const combined = [...localMatches];
+      const seen = new Set(localMatches.map(m => m.ticker));
+      
+      apiMatches.forEach(match => {
+        if (!seen.has(match.ticker)) {
+          combined.push(match);
+          seen.add(match.ticker);
+        }
+      });
+      
+      setSuggestions(combined);
+    }, 300),
+    []
+  );
+
+  const handleFocus = (id, query) => {
+    setActiveRowId(id);
+    debouncedSearch(id, query);
+  };
+
+  const selectSuggestion = async (id, suggestion) => {
+    let price = 0;
+    let currency = 'USD';
+    if (suggestion.isLocal) {
+      price = suggestion.price;
+      currency = TICKER_DB[suggestion.ticker]?.currency || 'USD';
+    } else {
+      const quote = await getTickerQuote(suggestion.ticker);
+      if (quote) {
+        price = quote.price;
+        currency = quote.currency || 'USD';
+      }
+    }
+
+    setRows(prev => prev.map(r => r.id === id ? {
+      ...r,
+      ticker: suggestion.ticker,
+      name: suggestion.name,
+      cost: price || r.cost,
+      currency: currency
+    } : r));
+    
+    setSuggestions([]);
+    setActiveRowId(null);
+  };
+
   const updateRow = (id, field, value) => {
     setRows(prev => prev.map(r => {
       if (r.id !== id) return r;
       return { ...r, [field]: value };
     }));
 
-    if (field === 'ticker' && value.length >= 2) {
-      debouncedLookup(id, value);
+    if (field === 'ticker') {
+      setActiveRowId(id);
+      debouncedSearch(id, value);
+      if (value.length >= 2) {
+        debouncedLookup(id, value);
+      }
     }
   };
 
-  const totalValue = rows.reduce((sum, r) => sum + (r.qty * r.cost), 0);
+  const getValInKRW = (r) => {
+    const isUSD = r.currency === 'USD' || (!r.currency && r.ticker.toUpperCase() !== 'SAMSUNG' && r.ticker.toUpperCase() !== 'KIA');
+    const rate = isUSD ? usdKrwRate : 1;
+    return r.qty * r.cost * rate;
+  };
+
+  const totalValue = rows.reduce((sum, r) => sum + getValInKRW(r), 0);
 
   const processOcr = async (file) => {
     setIsOcrProcessing(true);
@@ -133,12 +232,15 @@ export const PortfolioRegistration = () => {
                name = restOfStr.substring(0, firstNumIdx).replace(/[^\w가-힣\s]/g, '').trim();
              }
 
+             const upperTicker = maybeTicker.toUpperCase();
+             const currency = (TICKER_DB[upperTicker]?.currency) || (upperTicker === 'SAMSUNG' || upperTicker === 'KIA' ? 'KRW' : 'USD');
              parsedRows.push({
                id: nextId.current++,
                ticker: maybeTicker,
                name: name || '',
                qty,
                cost,
+               currency,
              });
           }
         }
@@ -195,12 +297,25 @@ export const PortfolioRegistration = () => {
     const newPortfolio = addPortfolio({
       name: portfolioName,
       purpose,
-      assets: validRows.map(r => ({
-        ticker: r.ticker.toUpperCase(),
-        name: r.name,
-        qty: r.qty,
-        cost: r.cost,
-      })),
+      assets: validRows.map(r => {
+        let currency = r.currency;
+        if (!currency) {
+          const upperTicker = r.ticker.toUpperCase();
+          if (TICKER_DB[upperTicker]) {
+            currency = TICKER_DB[upperTicker].currency;
+          } else {
+            const isKorean = /^[0-9]+$/.test(upperTicker) || upperTicker === 'SAMSUNG' || upperTicker === 'KIA';
+            currency = isKorean ? 'KRW' : 'USD';
+          }
+        }
+        return {
+          ticker: r.ticker.toUpperCase(),
+          name: r.name,
+          qty: r.qty,
+          cost: r.cost,
+          currency,
+        };
+      }),
     });
 
     setCreatedPortfolio(newPortfolio);
@@ -210,7 +325,7 @@ export const PortfolioRegistration = () => {
   const handleCancel = () => {
     setPortfolioName('');
     setPurpose('장기 가치 투자');
-    setRows([{ id: nextId.current++, ticker: '', name: '', qty: 0, cost: 0 }]);
+    setRows([{ id: nextId.current++, ticker: '', name: '', qty: 0, cost: 0, currency: 'USD' }]);
     setUploadedFile(null);
   };
 
@@ -387,20 +502,63 @@ export const PortfolioRegistration = () => {
               <th>티커 (TICKER)</th>
               <th>종목명 (선택)</th>
               <th>수량 (QUANTITY)</th>
-              <th>평균 단가 (AVG. COST)</th>
+              <th>
+                평균 단가 (AVG. COST)
+                <span style={{display:'block', fontSize:'0.6rem', fontWeight:400, color:'var(--text-muted)', marginTop:'2px'}}>
+                  기준일: {new Date().toLocaleDateString('ko-KR', {year:'numeric', month:'2-digit', day:'2-digit'})}
+                </span>
+              </th>
+              <th>합계</th>
               <th>작업</th>
             </tr>
           </thead>
           <tbody>
             {rows.map(row => (
               <tr key={row.id}>
-                <td>
-                  <input 
-                    type="text" 
-                    value={row.ticker}
-                    onChange={(e) => updateRow(row.id, 'ticker', e.target.value)}
-                    placeholder="AAPL"
-                  />
+                <td style={{ position: 'relative', overflow: 'visible' }}>
+                  <div className="ticker-input-container">
+                    <input 
+                      type="text" 
+                      value={row.ticker}
+                      onChange={(e) => updateRow(row.id, 'ticker', e.target.value)}
+                      onFocus={() => handleFocus(row.id, row.ticker)}
+                      onBlur={() => {
+                        // Small delay to allow list click/mousedown events to complete
+                        setTimeout(() => {
+                          setActiveRowId(null);
+                        }, 200);
+                      }}
+                      placeholder="티커 입력"
+                      autoComplete="off"
+                    />
+                    {activeRowId === row.id && suggestions.length > 0 && (
+                      <div className="suggestions-dropdown">
+                        {suggestions.map(s => (
+                          <div 
+                            key={s.ticker} 
+                            className="suggestion-item"
+                            onMouseDown={(e) => {
+                              e.preventDefault(); // Prevent blurring the input immediately
+                              selectSuggestion(row.id, s);
+                            }}
+                          >
+                            <div className="suggestion-info">
+                              <span className="suggestion-ticker">{s.ticker}</span>
+                              <span className="suggestion-name">{s.name}</span>
+                            </div>
+                            {s.isLocal && s.price && (
+                              <span className="suggestion-price">
+                                {(TICKER_DB[s.ticker]?.currency === 'KRW') ? '₩' : '$'}{s.price.toLocaleString()}
+                              </span>
+                            )}
+                            {!s.isLocal && s.exchange && (
+                              <span className="suggestion-exchange">{s.exchange}</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </td>
                 <td>
                   <input 
@@ -426,6 +584,14 @@ export const PortfolioRegistration = () => {
                     className="text-center" 
                     step="0.01"
                   />
+                </td>
+                <td style={{textAlign:'right', whiteSpace:'nowrap', fontSize:'0.85rem', fontWeight:600}}>
+                  {(() => {
+                    const isKRW = row.currency === 'KRW';
+                    const total = row.qty * row.cost;
+                    if (total === 0) return <span style={{color:'var(--text-muted)'}}>—</span>;
+                    return <span style={{color:'var(--accent-light)'}}>{isKRW ? '₩' : '$'}{total.toLocaleString(undefined, {maximumFractionDigits: 2})}</span>;
+                  })()}
                 </td>
                 <td>
                   <button className="trash-btn" onClick={() => removeRow(row.id)}>

@@ -18,7 +18,7 @@ const QUICK_SCENARIOS = [
 
 export const StressTest = () => {
   const navigate = useNavigate();
-  const { portfolios } = usePortfolios();
+  const { portfolios, usdKrwRate } = usePortfolios();
 
   const [selectedPortfolioId, setSelectedPortfolioId] = useState(null);
   const [rateShock, setRateShock] = useState(0);
@@ -81,10 +81,16 @@ export const StressTest = () => {
       const returnsMatrix = validAssets.map(h => h.returns.slice(-minLen));
       const macroReturnsMatrix = validMacros.map(h => h.returns.slice(-minLen));
       
+      const getValInKRW = (a) => {
+        const isUSD = a.currency === 'USD' || (!a.currency && a.ticker !== 'SAMSUNG' && a.ticker !== 'KIA');
+        const rate = isUSD ? usdKrwRate : 1;
+        return a.qty * a.cost * rate;
+      };
+
       const validTickers = validAssets.map(h => h.ticker);
       const filteredAssets = selectedPortfolio.assets.filter(a => validTickers.includes(a.ticker));
-      const subTotal = filteredAssets.reduce((sum, a) => sum + (a.qty * a.cost), 0);
-      const weights = filteredAssets.map(a => (a.qty * a.cost) / subTotal);
+      const subTotal = filteredAssets.reduce((sum, a) => sum + getValInKRW(a), 0);
+      const weights = filteredAssets.map(a => getValInKRW(a) / subTotal);
 
       const mcResult = runMacroScenarioSimulation(
         returnsMatrix,
@@ -102,7 +108,7 @@ export const StressTest = () => {
           ticker: a.ticker,
           name: a.name,
           impact: parseFloat((mcResult.assetExpectations[i] * 100).toFixed(1)),
-          lossAmount: Math.round(selectedPortfolio.totalValue * (a.qty * a.cost / selectedPortfolio.totalValue) * mcResult.assetExpectations[i])
+          lossAmount: Math.round(selectedPortfolio.totalValue * (getValInKRW(a) / selectedPortfolio.totalValue) * mcResult.assetExpectations[i])
         }))
       });
     } catch (error) {
@@ -184,11 +190,16 @@ export const StressTest = () => {
           </div>
         </div>
         <div className="target-assets">
-          {selectedPortfolio?.assets.slice(0, 3).map(a => (
-            <div key={a.ticker} className="asset-pill">
-              {a.ticker} {((a.qty * a.cost / selectedPortfolio.totalValue) * 100).toFixed(1)}%
-            </div>
-          ))}
+          {selectedPortfolio?.assets.slice(0, 3).map(a => {
+            const isUSD = a.currency === 'USD' || (!a.currency && a.ticker !== 'SAMSUNG' && a.ticker !== 'KIA');
+            const rate = isUSD ? usdKrwRate : 1;
+            const valInKRW = a.qty * a.cost * rate;
+            return (
+              <div key={a.ticker} className="asset-pill">
+                {a.ticker} {((valInKRW / selectedPortfolio.totalValue) * 100).toFixed(1)}%
+              </div>
+            );
+          })}
           {selectedPortfolio?.assets.length > 3 && (
             <div className="asset-pill">+{selectedPortfolio.assets.length - 3} More</div>
           )}
@@ -338,7 +349,15 @@ export const StressTest = () => {
                     {simulationResult.assetDetails.map(asset => (
                       <tr key={asset.ticker}>
                         <td className="font-medium">{asset.ticker}</td>
-                        <td className="text-secondary">{((selectedPortfolio.assets.find(a => a.ticker === asset.ticker).qty * selectedPortfolio.assets.find(a => a.ticker === asset.ticker).cost / selectedPortfolio.totalValue) * 100).toFixed(1)}%</td>
+                        <td className="text-secondary">
+                          {(() => {
+                            const assetObj = selectedPortfolio.assets.find(a => a.ticker === asset.ticker);
+                            const isUSD = assetObj.currency === 'USD' || (!assetObj.currency && assetObj.ticker !== 'SAMSUNG' && assetObj.ticker !== 'KIA');
+                            const rate = isUSD ? usdKrwRate : 1;
+                            const valInKRW = assetObj.qty * assetObj.cost * rate;
+                            return ((valInKRW / selectedPortfolio.totalValue) * 100).toFixed(1);
+                          })()}%
+                        </td>
                         <td className={asset.impact >= 0 ? 'text-green' : 'text-red'}>
                           {asset.impact >= 0 ? '+' : ''}{asset.impact}%
                         </td>

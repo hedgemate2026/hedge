@@ -233,15 +233,18 @@ export const MyPortfolios = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {p.assets.map(a => (
-                          <tr key={a.ticker}>
-                            <td className="font-semibold text-accent-light">{a.ticker}</td>
-                            <td>{a.name}</td>
-                            <td>{a.qty}</td>
-                            <td>₩{a.cost.toLocaleString()}</td>
-                            <td>{a.weight}%</td>
-                          </tr>
-                        ))}
+                        {p.assets.map(a => {
+                          const isUSD = a.currency === 'USD' || (!a.currency && a.ticker !== 'SAMSUNG' && a.ticker !== 'KIA');
+                          return (
+                            <tr key={a.ticker}>
+                              <td className="font-semibold text-accent-light">{a.ticker}</td>
+                              <td>{a.name}</td>
+                              <td>{a.qty}</td>
+                              <td>{isUSD ? `$${a.cost.toLocaleString()}` : `₩${a.cost.toLocaleString()}`}</td>
+                              <td>{a.weight}%</td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                     <div className="flex gap-3 mt-4">

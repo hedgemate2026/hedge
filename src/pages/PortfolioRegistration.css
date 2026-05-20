@@ -179,6 +179,18 @@
   color: var(--text-secondary);
   font-weight: 500;
   padding-bottom: 0.5rem;
+  vertical-align: top;
+}
+
+.manual-table th:nth-child(5) { /* 합계 column */
+  text-align: right;
+  min-width: 90px;
+}
+
+.manual-table td:nth-child(5) { /* 합계 value cell */
+  text-align: right;
+  padding-right: 0.5rem;
+  min-width: 90px;
 }
 
 .manual-table td {
@@ -252,3 +264,89 @@
     transform: rotate(360deg);
   }
 }
+
+/* ─── Ticker Suggestion Autocomplete ─── */
+.ticker-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 280px;
+  max-height: 220px;
+  overflow-y: auto;
+  background-color: #1e1b29; /* Dark matching background */
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  z-index: 1000;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  padding: 4px;
+}
+
+/* Custom scrollbar for suggestions dropdown */
+.suggestions-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+.suggestions-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+.suggestions-dropdown::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.suggestion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.suggestion-item:hover {
+  background-color: rgba(168, 85, 247, 0.15);
+}
+
+.suggestion-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+  margin-right: 8px;
+}
+
+.suggestion-ticker {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.suggestion-name {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.suggestion-price {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-light);
+  flex-shrink: 0;
+}
+
+.suggestion-exchange {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2px 4px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+

@@ -1,3 +1,97 @@
+/* ─── Sensitivity Page Wrapper ─── */
+.sensitivity-page {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Page Header ─── */
+.report-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ─── Card Box ─── */
+.card-box {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+/* ─── Metric Card Hover ─── */
+.metric-card-hover {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.metric-card-hover:hover {
+  border-color: rgba(168, 85, 247, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(168, 85, 247, 0.08);
+}
+
+/* ─── Heatmap Tooltip ─── */
+.heatmap-tooltip {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* ─── Cell diagonal label ─── */
+.cell-diag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+}
+
+/* ─── Text utilities ─── */
+.text-warning { color: #f59e0b; }
+.tracking-widest { letter-spacing: 0.12em; }
+.shrink-0 { flex-shrink: 0; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m-0 { margin: 0; }
+.mt-1 { margin-top: 0.25rem; }
+.pt-3 { padding-top: 0.75rem; }
+.border-t { border-top-width: 1px; border-top-style: solid; }
+.text-3xl { font-size: 1.875rem; }
+.text-2xl { font-size: 1.5rem; }
+.text-xl { font-size: 1.25rem; }
+.font-bold { font-weight: 700; }
+.tracking-tight { letter-spacing: -0.02em; }
+.text-accent-light { color: var(--accent-light); }
+.font-semibold { font-weight: 600; }
+.ml-2 { margin-left: 0.5rem; }
+.max-w-\[120px\] { max-width: 120px; }
+.badge-purple {
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--accent-light);
+  letter-spacing: 0.05em;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-dark { background-color: #2d2d3a; }
+.dot-purple { background-color: var(--accent-light); }
+.text-secondary { color: var(--text-secondary); }
+
 .sensitivity-grid {
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -125,7 +219,7 @@
   top: 60px;
   left: 1rem;
   right: 1rem;
-  background: var(--card-bg);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.5);
@@ -144,7 +238,7 @@
 }
 
 .stock-search-btn {
-  background: var(--card-bg);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
   padding: 0.5rem 0.75rem;
@@ -168,7 +262,7 @@
   top: 100%;
   right: 0;
   width: 320px;
-  background: var(--card-bg);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: var(--shadow-lg);

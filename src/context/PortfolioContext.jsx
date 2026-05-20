@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { getTickerQuote } from '../services/yahooFinance';
 
 const PortfolioContext = createContext();
 
@@ -7,6 +8,23 @@ const STORAGE_KEY = 'hedgemate_portfolios';
 const DEFAULT_PORTFOLIOS = [];
 
 export const PortfolioProvider = ({ children }) => {
+  const [usdKrwRate, setUsdKrwRate] = useState(1380);
+
+  useEffect(() => {
+    const fetchRate = async () => {
+      try {
+        const quote = await getTickerQuote('USDKRW=X');
+        if (quote && quote.price) {
+          setUsdKrwRate(quote.price);
+          console.log('Fetched dynamic USD/KRW rate:', quote.price);
+        }
+      } catch (e) {
+        console.error('Error fetching USDKRW=X rate, using fallback:', e);
+      }
+    };
+    fetchRate();
+  }, []);
+
   const [portfolios, setPortfolios] = useState(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -31,12 +49,20 @@ export const PortfolioProvider = ({ children }) => {
     const now = new Date();
     const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
     
-    const totalValue = portfolio.assets.reduce((sum, a) => sum + (a.qty * a.cost), 0);
-    const totalQtyCost = portfolio.assets.reduce((sum, a) => sum + (a.qty * a.cost), 0);
-    const assetsWithWeight = portfolio.assets.map(a => ({
-      ...a,
-      weight: totalQtyCost > 0 ? Math.round((a.qty * a.cost) / totalQtyCost * 100) : 0,
-    }));
+    const getValInKRW = (a) => {
+      const isUSD = a.currency === 'USD' || (!a.currency && a.ticker !== 'SAMSUNG' && a.ticker !== 'KIA');
+      const rate = isUSD ? usdKrwRate : 1;
+      return a.qty * a.cost * rate;
+    };
+
+    const totalValue = portfolio.assets.reduce((sum, a) => sum + getValInKRW(a), 0);
+    const assetsWithWeight = portfolio.assets.map(a => {
+      const valInKRW = getValInKRW(a);
+      return {
+        ...a,
+        weight: totalValue > 0 ? Math.round(valInKRW / totalValue * 100) : 0,
+      };
+    });
 
     const newPortfolio = {
       id: `portfolio-${Date.now()}`,
@@ -78,6 +104,7 @@ export const PortfolioProvider = ({ children }) => {
       deletePortfolio,
       updatePortfolio,
       getPortfolioById,
+      usdKrwRate,
     }}>
       {children}
     </PortfolioContext.Provider>
