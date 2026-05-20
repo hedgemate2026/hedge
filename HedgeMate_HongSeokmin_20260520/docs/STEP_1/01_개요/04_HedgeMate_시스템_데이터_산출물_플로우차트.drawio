@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" modified="2026-03-19T02:02:03.195353Z" agent="OpenAI" version="24.7.17" type="device">
+  <diagram id="7ff5a01fde27" name="01_시스템흐름">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="HedgeMate 전체 시스템 흐름" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=26;fontStyle=1;fontColor=#1f2937;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="520" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="사용자 입력 → 분석 엔진 → 추천 결과 → 산출물 → 대시보드 시각화" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="40" y="58" width="760" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="&lt;b&gt;1. 사용자 입력&lt;/b&gt;&lt;br/&gt;• 단일 자산 입력&lt;br/&gt;• 포트폴리오 입력&lt;br/&gt;• KRW 기준 예산 입력" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="180" width="210" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="&lt;b&gt;2. 입력 해석 및 분석 요청&lt;/b&gt;&lt;br/&gt;• 자산명/티커 정규화&lt;br/&gt;• 입력 형식 검증&lt;br/&gt;• 분석 모드 결정" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="180" width="230" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="&lt;b&gt;3. HedgeMate 분석 엔진&lt;/b&gt;&lt;br/&gt;• 데이터 로드/재사용&lt;br/&gt;• KRW 기준 분석&lt;br/&gt;• 리스크 측정 및 후보 평가" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="180" width="250" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="&lt;b&gt;4. 추천안 / 참고안 생성&lt;/b&gt;&lt;br/&gt;• 1:1 헷지&lt;br/&gt;• 다자산 헷지&lt;br/&gt;• Gate 판정 및 최종 랭킹" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="920" y="180" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="&lt;b&gt;5. 결과 산출물 생성&lt;/b&gt;&lt;br/&gt;• CSV 저장&lt;br/&gt;• 실행 결과 기록&lt;br/&gt;• 분석 리포트/검토 문서 생성" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="180" width="230" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="&lt;b&gt;6. 대시보드 시각화&lt;/b&gt;&lt;br/&gt;• 비교 결과 표시&lt;br/&gt;• 추천 자산배분 표시&lt;br/&gt;• 상위 후보/민감도 표시" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1490" y="180" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="4" target="5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="5" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="6" target="7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="7" target="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="8" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="&lt;b&gt;분석 엔진 입력 데이터&lt;/b&gt;&lt;br/&gt;• 시장데이터&lt;br/&gt;• FX 데이터&lt;br/&gt;• 벤치마크 데이터" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="650" y="70" width="170" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="15" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="&lt;b&gt;주요 화면 구성&lt;/b&gt;&lt;br/&gt;• 포트폴리오 개선 효과&lt;br/&gt;• 단일 종목 추천 결과&lt;br/&gt;• 자산 민감도 / 산출물 링크" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1460" y="340" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="시각화 대상" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="8" target="17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="18" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="&lt;b&gt;핵심 메시지&lt;/b&gt;&lt;br/&gt;사용자 입력을 KRW 기준 분석 엔진으로 처리하고, 추천 결과를 산출물과 대시보드 형태로 제공하는 구조" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="300" y="520" width="1080" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="7f395621d1d9" name="02_데이터흐름">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="2150" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="HedgeMate 데이터 처리 및 분석 흐름" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=26;fontStyle=1;fontColor=#1f2937;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="560" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="시장데이터/환율/벤치마크를 KRW 기준으로 정규화한 뒤 리스크 분석과 헷지 추천으로 연결" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="40" y="58" width="860" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="&lt;b&gt;1. 입력 데이터&lt;/b&gt;&lt;br/&gt;• 자산 유니버스 메타&lt;br/&gt;• 사용자 단일 자산 입력&lt;br/&gt;• 사용자 포트폴리오 입력" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="100" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="&lt;b&gt;2. 데이터 확보&lt;/b&gt;&lt;br/&gt;• 시장 가격 데이터 확보&lt;br/&gt;• FX 데이터 확보&lt;br/&gt;• 벤치마크 데이터 확보" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="250" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="기존 raw snapshot 존재?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="390" width="160" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="&lt;b&gt;캐시 재사용&lt;/b&gt;&lt;br/&gt;기존 raw / FX / benchmark 활용" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="230" y="520" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="&lt;b&gt;신규 수집&lt;/b&gt;&lt;br/&gt;외부 시세 기반 raw 데이터 생성" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="910" y="520" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="&lt;b&gt;3. 분석 대상 시계열 확보&lt;/b&gt;&lt;br/&gt;• 가격/환율/벤치마크 스냅샷 확정&lt;br/&gt;• run_id 기준 재현성 확보" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="650" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="&lt;b&gt;4. KRW 정규화&lt;/b&gt;&lt;br/&gt;• USD 자산 → KRW 환산&lt;br/&gt;• 시계열 정렬&lt;br/&gt;• 수익률 시계열 생성" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="800" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="&lt;b&gt;5. 데이터 품질 검사 (DQ)&lt;/b&gt;&lt;br/&gt;• 결측치 / coverage&lt;br/&gt;• invalid price / duplicate / outlier&lt;br/&gt;• FX 미매칭 → PASS/WARN/FAIL" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="950" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="&lt;b&gt;6. 리스크 피처 계산&lt;/b&gt;&lt;br/&gt;• Vol / MDD / VaR / CVaR&lt;br/&gt;• Beta / Downside Beta / Corr&lt;br/&gt;• Stress 수익률 / Sharpe proxy" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1110" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="&lt;b&gt;7. 자산 민감도 및 후보 선별&lt;/b&gt;&lt;br/&gt;• direction / magnitude / sensitivity level&lt;br/&gt;• HES 기반 후보 압축" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1270" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="&lt;b&gt;8. 헷지 조합 평가&lt;/b&gt;&lt;br/&gt;• 1:1 조합 생성&lt;br/&gt;• 다자산 조합 생성&lt;br/&gt;• 기준안 vs 제안안 비교" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1420" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="Gate 통과 여부?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="1555" width="160" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="&lt;b&gt;추천안&lt;/b&gt;&lt;br/&gt;PASS 조합 선택&lt;br/&gt;최종 랭킹 반영" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="1680" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="&lt;b&gt;참고안&lt;/b&gt;&lt;br/&gt;Gate 실패 but calculable&lt;br/&gt;fallback 결과 제공" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="920" y="1680" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="4" target="5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="5" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="7" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="8" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="9" target="10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="10" target="11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="11" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="12" target="13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="13" target="14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="14" target="15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="28" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="6" target="7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="29" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="6" target="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="30" value="PASS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="15" target="16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="FAIL but calculable" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="15" target="17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="32" value="&lt;b&gt;9. 결과 생성&lt;/b&gt;&lt;br/&gt;• 비교표 / 추천표 저장&lt;br/&gt;• 리포트 문서 생성&lt;br/&gt;• 대시보드 반영용 데이터 제공" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1680" width="320" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="33" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="16" target="32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="17" target="32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="35" value="&lt;b&gt;핵심 메시지&lt;/b&gt;&lt;br/&gt;수집된 데이터를 KRW 기준으로 정규화하고, DQ 검사와 리스크 분석을 거쳐 헷지 추천 결과를 생성" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="260" y="1850" width="900" height="70" as="geometry" />
+        </mxCell>
+      <mxCell id="36" value="&lt;b&gt;민감도 기준 (현재 구현)&lt;/b&gt;&lt;br/&gt;• factor: S&amp;amp;P500 beta / downside beta / S&amp;amp;P500 60d corr / KOSPI200 60d corr / Stress 평균수익률&lt;br/&gt;• direction: positive / negative / neutral (factor별 flat threshold 기준)&lt;br/&gt;• magnitude: raw value 절대값&lt;br/&gt;• sensitivity level: low / medium / high (factor별 임계치 기반)&lt;br/&gt;• 임계치 예시&lt;br/&gt;  - beta, downside beta: flat 0.10 / medium 0.40 / high 1.00&lt;br/&gt;  - corr factor: flat 0.10 / medium 0.30 / high 0.60&lt;br/&gt;  - stress factor: flat 0.0005 / medium 0.0015 / high 0.0030&lt;br/&gt;• structural tags: usd_exposure, rate_proxy, inflation_proxy, geopolitical_proxy, defensive_proxy&lt;br/&gt;&lt;br/&gt;&lt;b&gt;추가 예정&lt;/b&gt;&lt;br/&gt;• 금리/환율/인플레이션/지정학 등 &lt;b&gt;시나리오별 민감도&lt;/b&gt; 확장 예정" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1"><mxGeometry x="970" y="1060" width="540" height="300" as="geometry" /></mxCell><mxCell id="37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="11" target="36"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="38" value="&lt;b&gt;Gate PASS 판정 기준 (현재 구현)&lt;/b&gt;&lt;br/&gt;1. CVaR 개선 &amp;gt; 0&lt;br/&gt;2. MDD 개선 ≥ 0&lt;br/&gt;3. Stress 평균수익률 개선 ≥ 0&lt;br/&gt;4. |Corr| 또는 |Beta| 감소&lt;br/&gt;5. 유동성 기준 통과 (combo_min_adv_60 확보)&lt;br/&gt;6. 조합 내 DQ FAIL 자산 제외&lt;br/&gt;&lt;br/&gt;※ 계산은 가능하지만 Gate 미통과 시 &lt;b&gt;참고안&lt;/b&gt;으로 분류" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1"><mxGeometry x="970" y="1460" width="540" height="170" as="geometry" /></mxCell><mxCell id="39" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="13" target="38"><mxGeometry relative="1" as="geometry" /></mxCell></root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="a190a6960657" name="03_산출물구조">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="HedgeMate 산출물 및 저장 구조" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=26;fontStyle=1;fontColor=#1f2937;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="520" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Raw → Processed → Reports → Docs 구조로 재현성과 검증 가능성을 확보" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="40" y="58" width="740" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="&lt;b&gt;HedgeMate Project Outputs&lt;/b&gt;&lt;br/&gt;분석 실행 결과가 단계별 폴더 구조로 저장됨" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="650" y="100" width="420" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="&lt;b&gt;inputs/&lt;/b&gt;&lt;br/&gt;• portfolio_weights.csv&lt;br/&gt;&lt;br/&gt;&lt;i&gt;역할&lt;/i&gt;&lt;br/&gt;사용자 포트폴리오 입력 저장" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="280" width="260" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="&lt;b&gt;outputs/raw/&lt;/b&gt;&lt;br/&gt;• raw_market_daily_*.csv&lt;br/&gt;• raw_fx_daily_*.csv&lt;br/&gt;• raw_benchmark_daily_*.csv&lt;br/&gt;&lt;br/&gt;&lt;i&gt;역할&lt;/i&gt;&lt;br/&gt;원천 시계열 스냅샷 저장" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="260" width="280" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="&lt;b&gt;outputs/processed/&lt;/b&gt;&lt;br/&gt;• features_summary_*.csv&lt;br/&gt;• asset_risk_sensitivity_*.csv&lt;br/&gt;&lt;br/&gt;&lt;i&gt;역할&lt;/i&gt;&lt;br/&gt;분석용 피처 / 민감도 저장" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="270" width="280" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="&lt;b&gt;outputs/reports/&lt;/b&gt;&lt;br/&gt;• dq_result_*.csv&lt;br/&gt;• metric_validation_*.csv&lt;br/&gt;• hes_components_*.csv&lt;br/&gt;• portfolio_compare_*.csv&lt;br/&gt;• single_asset_compare_*.csv&lt;br/&gt;• hedge 결과 CSV들&lt;br/&gt;• asset_sensitivity_summary_*.md" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="220" width="320" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="&lt;b&gt;docs/STEP_1/04_실행결과/&lt;/b&gt;&lt;br/&gt;• 01_실행결과_*.md&lt;br/&gt;• 02_분석리포트_초안_*.md&lt;br/&gt;• 03_결과검토_*.md&lt;br/&gt;&lt;br/&gt;&lt;i&gt;역할&lt;/i&gt;&lt;br/&gt;실행 요약 / 보고서 / 검토 문서 저장" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="250" width="320" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="4" target="5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="4" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="4" target="7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="4" target="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="4" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="입력 반영" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="5" target="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="가공" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="6" target="7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="추천/비교 계산" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="7" target="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="문서화" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b5563;" edge="1" parent="1" source="8" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="&lt;b&gt;Dashboard / 결과 소비 계층&lt;/b&gt;&lt;br/&gt;• 포트폴리오 비교 결과 조회&lt;br/&gt;• 단일 종목 추천 결과 조회&lt;br/&gt;• 자산 민감도 / 산출물 링크 제공" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="650" width="520" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="7" target="19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="8" target="19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="9" target="19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="&lt;b&gt;구조적 장점&lt;/b&gt;&lt;br/&gt;• 재수집 최소화&lt;br/&gt;• 실행 결과 재현 가능&lt;br/&gt;• 품질검사와 추천근거 추적 가능" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="640" y="840" width="440" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="19" target="23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

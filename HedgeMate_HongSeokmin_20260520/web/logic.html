@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HedgeMate Logic Map</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell logic-shell">
+      <header class="hero glass-card logic-hero">
+        <div class="hero-copy">
+          <span class="eyebrow">Logic Map</span>
+          <h1>HedgeMate 의사결정 로직</h1>
+          <p>
+            정형 장세 진단, 비정형 이벤트 오버레이, 시나리오 민감도,
+            포트폴리오 취약도와 Gate 판정을 하나의 흐름으로 봅니다.
+          </p>
+          <div class="hero-badges">
+            <a class="badge nav-link" href="/">HedgeMate</a>
+            <a class="badge nav-link" href="/scenario.html">Scenario Research</a>
+            <span class="badge">API-free Phase 5</span>
+            <span class="badge">Explainable Hedge</span>
+          </div>
+        </div>
+        <div class="hero-panel logic-brief-panel">
+          <div class="field-label">Core Thesis</div>
+          <p class="helper-text compact">
+            수익률이 높았던 자산을 고르는 화면이 아니라, 현재 장세에서
+            포트폴리오의 취약한 시나리오 노출을 줄이는 방어형 판단 구조입니다.
+          </p>
+        </div>
+      </header>
+
+      <section id="logic-status-banner" class="status-banner"></section>
+      <section id="logic-status-strip" class="logic-status-strip"></section>
+
+      <section class="glass-card section-card full-span-card logic-section">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Pipeline</span>
+            <h2>데이터가 추천 판정까지 가는 길</h2>
+          </div>
+        </div>
+        <div id="logic-pipeline" class="logic-pipeline"></div>
+      </section>
+
+      <section class="section-grid lower-grid">
+        <article class="glass-card section-card logic-section">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Formula</span>
+              <h2>점수 결합 구조</h2>
+            </div>
+          </div>
+          <div id="logic-formulas" class="logic-formula-list"></div>
+        </article>
+
+        <article class="glass-card section-card logic-section">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Gate</span>
+              <h2>추천/참고/실패 분리</h2>
+            </div>
+          </div>
+          <div id="logic-gate" class="logic-gate"></div>
+        </article>
+      </section>
+
+      <section class="section-grid lower-grid">
+        <article class="glass-card section-card logic-section">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Phase 5</span>
+              <h2>비정형 이벤트 오버레이</h2>
+            </div>
+          </div>
+          <div id="logic-phase5" class="logic-phase-card"></div>
+        </article>
+
+        <article class="glass-card section-card logic-section">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Live Status</span>
+              <h2>현재 산출물 상태</h2>
+            </div>
+          </div>
+          <div id="logic-live-status" class="logic-live-status"></div>
+        </article>
+      </section>
+
+      <section class="glass-card section-card full-span-card logic-section">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Lineage</span>
+            <h2>핵심 산출물 추적</h2>
+          </div>
+        </div>
+        <div id="logic-artifacts" class="logic-artifact-grid"></div>
+      </section>
+    </main>
+    <script src="/logic.js"></script>
+  </body>
+</html>

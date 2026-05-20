@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HedgeMate | 시장국면 진단 결과</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero glass-card scenario-hero">
+        <div class="hero-copy">
+          <span class="eyebrow">시장국면 진단 엔진</span>
+          <h1>시장국면 진단<br />결과 대시보드</h1>
+          <p>
+            이 화면은 HedgeMate 추천 엔진이 읽는 시장국면 입력 데이터입니다. 투자 추천 화면이 아니라
+            시나리오 점수, 이벤트 보조 신호, 검증 상태를 확인하는 진단 화면입니다.
+          </p>
+          <div class="hero-badges">
+            <a class="badge nav-link" href="/">HedgeMate</a>
+            <a class="badge nav-link" href="/logic.html">Logic Map</a>
+            <span class="badge">최종 시장국면</span>
+            <span class="badge">검토된 이벤트 보조신호</span>
+            <span class="badge">과거 검증</span>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <label for="scenario-run-select" class="field-label">시장국면 실행 결과</label>
+          <div class="select-wrap">
+            <select id="scenario-run-select"></select>
+          </div>
+          <button id="scenario-refresh-button" class="primary-button">결과 새로 읽기</button>
+          <p class="helper-text">실행 결과 묶음은 특정 날짜 기준으로 저장된 시장국면 점수, 이벤트 보조신호, 검증 파일을 함께 가리킵니다.</p>
+        </div>
+      </header>
+
+      <section id="scenario-status-banner" class="status-banner"></section>
+      <section id="scenario-overview-grid" class="metric-grid"></section>
+
+      <section class="section-grid">
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">최종 시장국면</span>
+              <h2>상위 활성 시나리오</h2>
+            </div>
+            <span id="scenario-date-chip" class="section-chip">-</span>
+          </div>
+          <div id="top-active-scenarios"></div>
+        </article>
+
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">관점별 분류</span>
+              <h2>관점별 시장국면</h2>
+            </div>
+          </div>
+          <div id="lens-summary"></div>
+        </article>
+      </section>
+
+      <section class="section-grid lower-grid">
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">시나리오 점수표</span>
+              <h2>현재 시나리오 벡터</h2>
+            </div>
+          </div>
+          <div id="scenario-vector-leaders"></div>
+          <div id="market-state-table"></div>
+        </article>
+
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">단기·이벤트 보조신호</span>
+              <h2>단기 보조 신호</h2>
+            </div>
+          </div>
+          <div id="nowcast-leaders"></div>
+          <div id="event-overlay"></div>
+        </article>
+      </section>
+
+      <section class="section-grid lower-grid">
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">검증</span>
+              <h2>과거 검증</h2>
+            </div>
+          </div>
+          <div id="scenario-summary"></div>
+          <div id="validation-review"></div>
+        </article>
+
+        <article class="glass-card section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">산출물</span>
+              <h2>산출물</h2>
+            </div>
+          </div>
+          <div id="scenario-artifacts"></div>
+        </article>
+      </section>
+    </main>
+    <script src="/scenario.js"></script>
+  </body>
+</html>

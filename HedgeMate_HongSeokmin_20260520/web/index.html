@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HedgeMate | 원화 기준 시나리오 헷지 대시보드</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#dashboard-content">본문으로 바로가기</a>
+    <main id="dashboard-content" class="product-shell">
+      <header class="product-header">
+        <div>
+          <p class="eyebrow">HedgeMate</p>
+          <h1>원화 기준 시나리오 헷지 통합 대시보드</h1>
+          <p class="header-copy">
+            현재 시장국면, 포트폴리오 취약점, 헷지 후보의 위험 축소 효과, 과거 검증 상태를 한 화면에서 판단합니다.
+          </p>
+        </div>
+        <div class="header-actions">
+          <button id="refresh-button" class="primary-button" type="button">새로고침</button>
+          <a class="ghost-button nav-link-button" href="/scenario.html">시나리오 상세</a>
+          <a class="ghost-button nav-link-button" href="/logic.html">로직 맵</a>
+        </div>
+      </header>
+
+      <section id="status-banner" class="status-banner" aria-live="polite"></section>
+
+      <section class="product-section workflow-panel" aria-labelledby="workflow-title">
+        <div class="section-heading">
+          <p class="eyebrow">Workflow</p>
+          <h2 id="workflow-title">포트폴리오 입력과 데이터 갱신</h2>
+          <p>자산명과 수량을 넣으면 수량 기준 총 평가액이 자동으로 계산됩니다. 한 종목만 넣으면 단일자산 헷지 분석으로 실행합니다.</p>
+        </div>
+
+        <div class="workflow-grid">
+          <article class="analysis-card">
+            <div class="panel-title-row">
+              <div>
+                <h3>현재 포트폴리오</h3>
+                <p>자산을 검색하고 보유 수량을 입력하면 오른쪽에 총 가격이 자동으로 표시되고, 1주 가격은 계산 근거로 함께 보여줍니다.</p>
+              </div>
+              <button id="sample-portfolio-button" class="ghost-button compact-button" type="button">예시</button>
+            </div>
+            <div id="portfolio-input-rows" class="portfolio-input-rows"></div>
+            <div class="workflow-actions single">
+              <button id="add-portfolio-row-button" class="ghost-button" type="button">행 추가</button>
+            </div>
+          </article>
+
+          <article class="analysis-card">
+            <h3>데이터와 실행</h3>
+            <div id="freshness-panel" class="freshness-panel"></div>
+            <label class="field-label" for="hedge-budget-input">헷지 예산(KRW)</label>
+            <input id="hedge-budget-input" class="text-input" inputmode="numeric" value="1000000" />
+            <div class="workflow-actions two">
+              <button id="refresh-market-button" class="ghost-button" type="button">시장데이터 갱신</button>
+              <button id="run-analysis-button" class="primary-button" type="button" disabled>포트폴리오 분석 실행</button>
+            </div>
+            <div id="job-status-panel" class="job-status-panel"></div>
+          </article>
+        </div>
+
+        <div id="portfolio-preview-panel" class="portfolio-preview-panel"></div>
+      </section>
+
+      <section class="conclusion-panel" aria-labelledby="conclusion-title">
+        <div>
+          <p class="eyebrow">오늘의 결론</p>
+          <h2 id="conclusion-title">데이터를 불러오는 중입니다.</h2>
+          <p id="conclusion-copy"></p>
+        </div>
+        <dl id="active-bundle-meta" class="bundle-meta"></dl>
+      </section>
+
+      <section id="summary-cards" class="summary-grid" aria-label="핵심 요약"></section>
+
+      <section class="product-section" id="vulnerability-section" aria-labelledby="vulnerability-title">
+        <div class="section-heading">
+          <p class="eyebrow">Vulnerability Analysis</p>
+          <h2 id="vulnerability-title">포트폴리오 취약성 Top 3</h2>
+          <p>현재 포트폴리오가 어떤 시장국면(Risk Sleeve)에 취약하며, 주요 원인/오프셋 자산은 무엇인지 분석합니다.</p>
+        </div>
+        <div id="vulnerability-top3-container" class="vulnerability-top3-grid"></div>
+      </section>
+
+      <section class="product-section" id="contributors-section" aria-labelledby="contributors-title">
+        <div class="section-heading">
+          <p class="eyebrow">Contributors</p>
+          <h2 id="contributors-title">취약성을 만든 보유자산</h2>
+          <p>각 위기 시나리오별 보유자산의 비중 대비 취약성 기여도를 상세히 분석합니다.</p>
+        </div>
+        <div id="contributors-container" class="contributors-container-box"></div>
+      </section>
+
+      <section class="product-section" id="actions-section" aria-labelledby="actions-title">
+        <div class="section-heading">
+          <p class="eyebrow">Action Recommendations</p>
+          <h2 id="actions-title">검토 가능한 액션</h2>
+          <p>포트폴리오 취약성을 보완하기 위한 비중 추가(Add), 비중 축소 후 헤지(Trim), 슬리브 교체(Replace) 액션을 검토합니다.</p>
+        </div>
+        <div id="actions-container" class="actions-container"></div>
+      </section>
+
+      <section class="product-section" aria-labelledby="trust-title">
+        <div class="section-heading">
+          <p class="eyebrow">Trust</p>
+          <h2 id="trust-title">믿어도 되는가</h2>
+          <p>데이터 품질, backtest, 이벤트 overlay, 미구현 기능을 숨기지 않습니다.</p>
+        </div>
+        <div id="trust-grid" class="trust-grid"></div>
+      </section>
+
+      <section class="product-section" aria-labelledby="terms-title">
+        <div class="section-heading">
+          <p class="eyebrow">Terms</p>
+          <h2 id="terms-title">핵심 용어</h2>
+        </div>
+        <div id="term-grid" class="term-grid"></div>
+      </section>
+
+      <details class="expert-panel">
+        <summary>전문가 보기 · 산출물과 원시 수치</summary>
+        <div id="expert-grid" class="expert-grid"></div>
+      </details>
+    </main>
+    <script src="/unified.js"></script>
+  </body>
+</html>
