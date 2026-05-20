@@ -1,0 +1,71 @@
+ticker,asset_class,region,group_tag,currency,benchmark_group,is_core_hedge,candidate_role,candidate_role_reason_ko
+005930.KS,kr_stock,KR,semiconductor,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+000660.KS,kr_stock,KR,semiconductor,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+005380.KS,kr_stock,KR,large_cap,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+000270.KS,kr_stock,KR,large_cap,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+035420.KS,kr_stock,KR,large_cap,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+035720.KS,kr_stock,KR,large_cap,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+207940.KS,kr_stock,KR,large_cap,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+068270.KS,kr_stock,KR,large_cap,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+051910.KS,kr_stock,KR,large_cap,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+006400.KS,kr_stock,KR,large_cap,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+066570.KS,kr_stock,KR,large_cap,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+105560.KS,kr_stock,KR,financial,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+055550.KS,kr_stock,KR,financial,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+005490.KS,kr_stock,KR,materials,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+032830.KS,kr_stock,KR,financial,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+034020.KS,kr_stock,KR,industrial,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+003670.KS,kr_stock,KR,battery_material,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+011200.KS,kr_stock,KR,shipping,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+017670.KS,kr_stock,KR,telecom,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+000810.KS,kr_stock,KR,insurance,KRW,KOSPI200,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+AAPL,us_stock,US,large_cap,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+MSFT,us_stock,US,large_cap,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+NVDA,us_stock,US,semiconductor,USD,SP500,N,conditional_candidate,반도체와 성장 factor를 키울 수 있어 all 모드에서만 비교
+AMZN,us_stock,US,large_cap,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+GOOGL,us_stock,US,large_cap,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+META,us_stock,US,large_cap,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+TSLA,us_stock,US,large_cap,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+BRK-B,us_stock,US,large_cap,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+JPM,us_stock,US,financial,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+V,us_stock,US,financial,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+MA,us_stock,US,financial,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+XOM,us_stock,US,energy,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+JNJ,us_stock,US,defensive,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+UNH,us_stock,US,defensive,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+PG,us_stock,US,defensive,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+KO,us_stock,US,defensive,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+HD,us_stock,US,consumer,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+AVGO,us_stock,US,semiconductor,USD,SP500,N,conditional_candidate,반도체와 성장 factor를 키울 수 있어 all 모드에서만 비교
+COST,us_stock,US,consumer,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+PFE,us_stock,US,defensive,USD,SP500,N,diagnostic_only,장세 해석용 자산으로 기본 헤지 후보에서 제외
+SPY,etf,US,equity_index,USD,SP500,N,diagnostic_only,시장 기준 벤치마크로 기본 헤지 후보에서 제외
+QQQ,etf,US,equity_index,USD,NASDAQ100,N,conditional_candidate,성장주 factor를 키울 수 있어 all 모드에서만 비교
+DIA,etf,US,equity_index,USD,DOW30,N,diagnostic_only,시장 기준 벤치마크로 기본 헤지 후보에서 제외
+IWM,etf,US,equity_index,USD,RUSSELL2000,N,diagnostic_only,시장 기준 벤치마크로 기본 헤지 후보에서 제외
+VTI,etf,US,equity_index,USD,US_TOTAL_MARKET,N,diagnostic_only,시장 기준 벤치마크로 기본 헤지 후보에서 제외
+VXUS,etf,GLOBAL,equity_index,USD,GLOBAL_EX_US,N,diagnostic_only,시장 기준 벤치마크로 기본 헤지 후보에서 제외
+EWY,etf,KR,country_etf,USD,KOREA_EQ,N,conditional_candidate,한국 지역 노출을 키울 수 있어 all 모드에서만 비교
+EFA,etf,GLOBAL,equity_index,USD,DEVELOPED_EX_US,N,diagnostic_only,시장 기준 벤치마크로 기본 헤지 후보에서 제외
+TLT,bond_etf,US,bond_duration,USD,US_TREASURY,Y,hedge_candidate,기본 포트폴리오 개선 후보
+IEF,bond_etf,US,bond_duration,USD,US_TREASURY,Y,hedge_candidate,기본 포트폴리오 개선 후보
+SHY,bond_etf,US,bond_duration,USD,US_TREASURY,Y,hedge_candidate,기본 포트폴리오 개선 후보
+LQD,bond_etf,US,credit_bond,USD,US_IG_CORP,Y,hedge_candidate,기본 포트폴리오 개선 후보
+HYG,bond_etf,US,credit_bond,USD,US_HY_CORP,N,diagnostic_only,신용위험 진단용 자산으로 기본 헤지 후보에서 제외
+TIP,bond_etf,US,inflation_linked,USD,US_TIPS,Y,hedge_candidate,기본 포트폴리오 개선 후보
+GLD,gold_etf,US,precious_metal,USD,GOLD,Y,hedge_candidate,기본 포트폴리오 개선 후보
+IAU,gold_etf,US,precious_metal,USD,GOLD,Y,hedge_candidate,기본 포트폴리오 개선 후보
+DBC,commodity_etf,US,broad_commodity,USD,COMMODITY,Y,hedge_candidate,기본 포트폴리오 개선 후보
+USO,commodity_etf,US,oil,USD,ENERGY,Y,hedge_candidate,기본 포트폴리오 개선 후보
+XLE,etf,US,energy_sector,USD,SP500_SECTOR,Y,hedge_candidate,기본 포트폴리오 개선 후보
+XLP,etf,US,defensive_sector,USD,SP500_SECTOR,Y,hedge_candidate,기본 포트폴리오 개선 후보
+XLU,etf,US,defensive_sector,USD,SP500_SECTOR,Y,hedge_candidate,기본 포트폴리오 개선 후보
+XLV,etf,US,defensive_sector,USD,SP500_SECTOR,Y,hedge_candidate,기본 포트폴리오 개선 후보
+ITA,etf,US,defense_sector,USD,AEROSPACE_DEFENSE,N,diagnostic_only,지정학 시나리오 활성 시 risk-bucket 조건부 후보, 평시 섹터 진단용
+PPA,etf,US,defense_sector,USD,AEROSPACE_DEFENSE,N,diagnostic_only,지정학 시나리오 활성 시 risk-bucket 조건부 후보, 평시 섹터 진단용
+VNQ,etf,US,reit,USD,US_REIT,N,diagnostic_only,섹터 진단용 자산으로 기본 헤지 후보에서 제외
+BTC-USD,crypto,CRYPTO,large_cap,USD,CRYPTO_MARKET,N,conditional_candidate,위기 때 방어자산보다 위험자산처럼 움직일 수 있어 all 모드에서만 비교
+ETH-USD,crypto,CRYPTO,large_cap,USD,CRYPTO_MARKET,N,conditional_candidate,위기 때 방어자산보다 위험자산처럼 움직일 수 있어 all 모드에서만 비교
+BNB-USD,crypto,CRYPTO,large_cap,USD,CRYPTO_MARKET,N,diagnostic_only,암호화폐 시장 진단용 자산으로 기본 헤지 후보에서 제외
+SOL-USD,crypto,CRYPTO,large_cap,USD,CRYPTO_MARKET,N,diagnostic_only,암호화폐 시장 진단용 자산으로 기본 헤지 후보에서 제외
+XRP-USD,crypto,CRYPTO,large_cap,USD,CRYPTO_MARKET,N,diagnostic_only,암호화폐 시장 진단용 자산으로 기본 헤지 후보에서 제외
